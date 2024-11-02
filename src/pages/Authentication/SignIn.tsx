@@ -10,27 +10,29 @@ const SignIn = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => { 
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/login', {
-        email,
-        password,
-      });
-      const token = response.headers['authorization']; // Suponiendo que el token se envía en el encabezado "Authorization"
+        const response = await axios.post('http://localhost:8080/login', {
+            email,
+            password,
+        });
+        const authorizationHeader = response.headers['authorization']; // Suponiendo que el token se envía en el encabezado "Authorization"
 
-      if (token) {
-        localStorage.setItem('token', token);
-        navigate('/admin');
-      } else {
-        setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
-      }
+        if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+            const token = authorizationHeader.replace('Bearer ', ''); // Elimina el prefijo "Bearer "
+            localStorage.setItem('token', token);
+            navigate('/admin');
+        } else {
+            setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
+        }
     } catch (err) {
-      console.error(err);
-      setError('Email o contraseña incorrecta. Por favor, inténtelo de nuevo.');
+        console.error(err);
+        setError('Email o contraseña incorrecta. Por favor, inténtelo de nuevo.');
     }
-  };
+};
+
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -38,7 +40,6 @@ const SignIn = () => {
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
             <Brand dark={false} />
-            
           </div>
         </div>
 

@@ -2,10 +2,12 @@ import React, { useState, ReactNode } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
 import { UserProvider } from '../Context/UserContext';
+import { ProductoProvider } from '../Context/ProductoContext';
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
+    <ProductoProvider>
     <UserProvider>
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
@@ -33,6 +35,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       {/* <!-- ===== Page Wrapper End ===== --> */}
     </div>
     </UserProvider>
+    </ProductoProvider>
   );
 };
 
