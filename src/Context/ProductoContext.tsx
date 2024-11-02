@@ -8,6 +8,7 @@ import React, {
 import axios from 'axios';
 import { Categoria } from '../types/Categoria';
 import { Marca } from '../types/Marca';
+import { Catalogo } from '../types/Catalogo';
 
 // Define el tipo para el contexto del producto
 type ProductoContextType = {
@@ -17,6 +18,9 @@ type ProductoContextType = {
   marcas: Marca[] | null;
   setMarcas: React.Dispatch<React.SetStateAction<Marca[] | null>>;
   fetchCategoriasYMarcas: () => void;
+  catalogos: Catalogo[] | null;
+  setCatalogos: React.Dispatch<React.SetStateAction<Catalogo[] | null>>;
+  fetchCatalogos: () => void;
 };
 // Crea el contexto
 const ProductoContext = createContext<ProductoContextType | undefined>(
@@ -41,6 +45,7 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
   const token = localStorage.getItem('token');
   const [categorias, setCategorias] = useState<Categoria[] | null>([]);
   const [marcas, setMarcas] = useState<Marca[] | null>([]);
+  const [catalogos, setCatalogos] = useState<Catalogo[] | null>([]);
 
   const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 
@@ -48,12 +53,14 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
   const fetchCategoriasYMarcas = async () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
-      console.log(token)
+    
       // Solicitud para obtener las categorías
-      const categoriasResponse = await axios.get(`${BASE_URL}detalles/categoria/all`, {
-        headers,
-      });
-      console.log(categoriasResponse);
+      const categoriasResponse = await axios.get(
+        `${BASE_URL}detalles/categoria/all`,
+        {
+          headers,
+        },
+      );
       setCategorias(categoriasResponse.data.data);
 
       // Solicitud para obtener las marcas
@@ -66,17 +73,41 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const fetchCatalogos = async () => {
+    try {
+      const headers = { Authorization: `Bearer ${token}` };
+     
+      // Solicitud para obtener los catalogos
+      const catalogosResponse = await axios.get(`${BASE_URL}catalogo/all`, {
+        headers,
+      });
+      console.log(catalogosResponse);
+      setCatalogos(catalogosResponse.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
   useEffect(() => {
     if (token) {
       fetchCategoriasYMarcas();
+      fetchCatalogos()
     }
   }, [token]);
 
   return (
     <ProductoContext.Provider
-      value={{ token, categorias,
+      value={{
+        token,
+        categorias,
         setCategorias,
-         marcas,setMarcas, fetchCategoriasYMarcas }}
+        marcas,
+        setMarcas,
+        fetchCategoriasYMarcas,
+        catalogos,
+        setCatalogos,
+        fetchCatalogos
+      }}
     >
       {children}
     </ProductoContext.Provider>
