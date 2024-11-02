@@ -1,0 +1,33 @@
+import React from 'react';
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import { BsFillBagPlusFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
+import { useUserContext } from '../../Context/UserContext';
+const Inventario: React.FC = () => {
+  const { modulo } = useUserContext();
+  return (
+    <>
+      <Breadcrumb pageName="Inventario" />
+      <div className="grid grid-cols-1 gap-9">
+        <div className="flex flex-col gap-9">
+          {/* <!-- Input Fields --> */}
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark flex items-center justify-between">
+              <h3 className="font-medium text-black dark:text-white">
+                Lista de productos
+              </h3>
+              <div className="ml-auto">
+                <Link to={`/${modulo}/inventario/registrar`}
+                 className=" flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90">
+                <BsFillBagPlusFill /> Producto
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Inventario;

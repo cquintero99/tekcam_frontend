@@ -1,0 +1,229 @@
+import { useState } from 'react';
+import Breadcrumb from '../../../components/Breadcrumbs/Breadcrumb';
+
+const RegistrarProducto = () => {
+  const [nombre, setNombre] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [marca, setMarca] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [stock, setStock] = useState<number | undefined>();
+  const [precioCompra, setPrecioCompra] = useState<number | undefined>();
+  const [precioVenta, setPrecioVenta] = useState<number | undefined>();
+  const [visible, setVisible] = useState(false);
+  const [imagenes, setImagenes] = useState<File[]>([]);
+
+  const handleAgregarImagen = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImagenes([...imagenes, ...Array.from(e.target.files)]);
+    }
+  };
+
+  const handleEliminarImagen = (index: number) => {
+    setImagenes(imagenes.filter((_, i) => i !== index));
+  };
+
+  const handleGuardarProducto = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Mostrar toda la información en consola
+    console.log({
+      nombre,
+      categoria,
+      marca,
+      descripcion,
+      stock,
+      precioCompra,
+      precioVenta,
+      visible,
+      imagenes: imagenes.map((imagen) => imagen.name), // Mostrar los nombres de las imágenes en la consola
+    });
+  };
+
+  return (
+    <>
+      <Breadcrumb pageName="Registrar Producto" />
+
+      <div className="grid grid-cols-1 gap-9 sm:grid-cols-[2fr_1fr]">
+        <div className="flex flex-col gap-9">
+          {/* <!-- Registrar Producto Form --> */}
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+              <h3 className="font-medium text-black dark:text-white">
+                Registrar Producto
+              </h3>
+            </div>
+            <form onSubmit={handleGuardarProducto}>
+              <div className="p-6.5">
+                {/* Nombre del Producto */}
+                <div className="mb-4.5">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Nombre del Producto
+                  </label>
+                  <input
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Ingrese el nombre del producto"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    required
+                  />
+                </div>
+
+                {/* Categoría y Marca en la misma fila */}
+                <div className="mb-4.5 flex gap-4">
+                  <div className="w-1/2">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                      Categoría
+                    </label>
+                    <input
+                      type="text"
+                      value={categoria}
+                      onChange={(e) => setCategoria(e.target.value)}
+                      placeholder="Ingrese la categoría"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
+                    />
+                  </div>
+
+                  <div className="w-1/2">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                      Marca
+                    </label>
+                    <input
+                      type="text"
+                      value={marca}
+                      onChange={(e) => setMarca(e.target.value)}
+                      placeholder="Ingrese la marca"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Precio de Compra y Precio de Venta en la misma fila */}
+                <div className="mb-4.5 flex gap-4">
+                  <div className="w-1/2">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                      Precio de Compra
+                    </label>
+                    <input
+                      type="number"
+                      value={precioCompra}
+                      onChange={(e) => setPrecioCompra(parseFloat(e.target.value))}
+                      placeholder="Ingrese el precio de compra"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="w-1/2">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                      Precio de Venta
+                    </label>
+                    <input
+                      type="number"
+                      value={precioVenta}
+                      onChange={(e) => setPrecioVenta(parseFloat(e.target.value))}
+                      placeholder="Ingrese el precio de venta"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    />
+                  </div>
+                </div>
+
+                {/* Stock y Visible en la misma fila */}
+                <div className="mb-4.5 flex gap-4">
+                  <div className="w-1/2">
+                    <label className="mb-2.5 block text-black dark:text-white">
+                      Stock
+                    </label>
+                    <input
+                      type="number"
+                      value={stock}
+                      onChange={(e) => setStock(parseInt(e.target.value))}
+                      placeholder="Ingrese el stock"
+                      className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    />
+                  </div>
+
+                  <div className="w-1/2 flex items-center">
+                    <input
+                      type="checkbox"
+                      checked={visible}
+                      onChange={(e) => setVisible(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <span className="text-black dark:text-white">¿Producto visible?</span>
+                  </div>
+                </div>
+
+                {/* Descripción al final */}
+                <div className="mb-6">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Descripción
+                  </label>
+                  <textarea
+                    rows={4}
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
+                    placeholder="Ingrese una descripción"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded bg-primary p-3 font-medium text-white hover:bg-opacity-90"
+                >
+                  Guardar Producto
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-9">
+          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+              <h3 className="font-medium text-black dark:text-white">Imágenes</h3>
+            </div>
+            <div className="flex flex-col gap-5.5 p-6.5">
+              <div>
+                <label className="mb-3 block text-black dark:text-white">
+                  Agregar Imagen
+                </label>
+                <input
+                  type="file"
+                  accept="image/*" // Aceptar solo archivos de imagen
+                  multiple
+                  onChange={handleAgregarImagen}
+                  className="w-full rounded-md border border-stroke p-3 outline-none transition file:mr-4 file:rounded file:border-[0.5px] file:border-stroke file:bg-[#EEEEEE] file:py-1 file:px-2.5 file:text-sm focus:border-primary file:focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:file:border-strokedark dark:file:bg-white/30 dark:file:text-white"
+                />
+              </div>
+
+              {imagenes.length > 0 && (
+                <div className="mt-4">
+                  <h4 className="text-black dark:text-white mb-2">Imágenes Agregadas:</h4>
+                  <ul>
+                    {imagenes.map((imagen, index) => (
+                      <li key={index} className="flex items-center justify-between mb-2">
+                        <span className="text-black dark:text-white">{imagen.name}</span>
+                        <button
+                          onClick={() => handleEliminarImagen(index)}
+                          className="text-red-500 hover:text-red-700"
+                        >
+                          Eliminar
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default RegistrarProducto;
