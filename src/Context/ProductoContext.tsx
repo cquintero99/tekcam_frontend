@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Categoria } from '../types/Categoria';
 import { Marca } from '../types/Marca';
 import { Catalogo } from '../types/Catalogo';
+import { Producto } from '../types/producto';
 
 // Define el tipo para el contexto del producto
 type ProductoContextType = {
@@ -21,6 +22,9 @@ type ProductoContextType = {
   catalogos: Catalogo[] | null;
   setCatalogos: React.Dispatch<React.SetStateAction<Catalogo[] | null>>;
   fetchCatalogos: () => void;
+  productos: Producto[] | null;
+  setProductos: React.Dispatch<React.SetStateAction<Producto[] | null>>;
+  fetchProductos: () => void;
 };
 // Crea el contexto
 const ProductoContext = createContext<ProductoContextType | undefined>(
@@ -46,7 +50,7 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
   const [categorias, setCategorias] = useState<Categoria[] | null>([]);
   const [marcas, setMarcas] = useState<Marca[] | null>([]);
   const [catalogos, setCatalogos] = useState<Catalogo[] | null>([]);
-
+  const [productos,setProductos] = useState<Producto[] | null>([]);
   const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 
   // Función para obtener las categorías y marcas
@@ -81,17 +85,33 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
       const catalogosResponse = await axios.get(`${BASE_URL}catalogo/all`, {
         headers,
       });
-      console.log(catalogosResponse);
       setCatalogos(catalogosResponse.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  const fetchProductos= async()=>{
+    try {
+      const headers= {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      };
+      // Solicitud para obtener los productos
+      const productosResponse = await axios.get(`${BASE_URL}producto/all`, {
+        headers,
+      });
+      console.log(productosResponse);
+      setProductos(productosResponse.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   useEffect(() => {
     if (token) {
       fetchCategoriasYMarcas();
       fetchCatalogos()
+      fetchProductos();
     }
   }, [token]);
 
@@ -106,7 +126,10 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
         fetchCategoriasYMarcas,
         catalogos,
         setCatalogos,
-        fetchCatalogos
+        fetchCatalogos,
+        productos,
+        setProductos,
+        fetchProductos
       }}
     >
       {children}

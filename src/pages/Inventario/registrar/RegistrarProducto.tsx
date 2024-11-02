@@ -1,16 +1,39 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Breadcrumb from '../../../components/Breadcrumbs/Breadcrumb';
+import { useProductoContext } from '../../../Context/ProductoContext';
+import { SubCategoria } from '../../../types/SubCategoria';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
+const token = localStorage.getItem('token');
+
 
 const RegistrarProducto = () => {
+  const { categorias, marcas, catalogos,fetchProductos } = useProductoContext();
   const [nombre, setNombre] = useState('');
   const [categoria, setCategoria] = useState('');
+  const [subCategoria, setSubCategoria] = useState('');
   const [marca, setMarca] = useState('');
+  const [catalogo, setCatalogo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [stock, setStock] = useState<number | undefined>();
   const [precioCompra, setPrecioCompra] = useState<number | undefined>();
   const [precioVenta, setPrecioVenta] = useState<number | undefined>();
   const [visible, setVisible] = useState(false);
   const [imagenes, setImagenes] = useState<File[]>([]);
+  const [filteredSubCategorias, setFilteredSubCategorias] = useState<SubCategoria[]>([]);
+  const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState('');
+  useEffect(() => {
+    // Filtrar subcategorías basadas en la categoría seleccionada
+    if (categoria) {
+      const categoriaSeleccionada = categorias?.find((cat) => cat.id === parseInt(categoria));
+      setFilteredSubCategorias(categoriaSeleccionada?.subCategorias ?? []);
+    } else {
+      setFilteredSubCategorias([]);
+    }
+  }, [categoria, categorias]);
 
   const handleAgregarImagen = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -22,21 +45,51 @@ const RegistrarProducto = () => {
     setImagenes(imagenes.filter((_, i) => i !== index));
   };
 
-  const handleGuardarProducto = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleGuardarProducto = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setErrorMsg('');
+    const formData = new FormData();
 
-    // Mostrar toda la información en consola
-    console.log({
+    formData.append('producto', new Blob([JSON.stringify({
       nombre,
       categoria,
-      marca,
+      subCategoria: {
+        id:parseInt(subCategoria)
+      },
+      marca: {
+        id:parseInt(marca)
+      },
+      catalogo: {
+        id:parseInt(catalogo)
+      },
       descripcion,
       stock,
       precioCompra,
       precioVenta,
       visible,
-      imagenes: imagenes.map((imagen) => imagen.name), // Mostrar los nombres de las imágenes en la consola
-    });
+    })], { type: 'application/json' }));
+
+    imagenes.forEach((imagen) => formData.append('files', imagen));
+
+    try {
+      const response = await axios.post(`${BASE_URL}producto/save`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.data.success) {
+        console.log('Producto guardado:', response.data);
+        navigate(-1)
+        fetchProductos();
+      } else {
+        console.error('Error al guardar el producto:', response.data);
+        setErrorMsg(response.data.msg);
+      }
+      console.log('Producto guardado:', response.data);
+    } catch (error) {
+      console.error('Error al guardar el producto:', error);
+    }
   };
 
   return (
@@ -69,37 +122,88 @@ const RegistrarProducto = () => {
                   />
                 </div>
 
-                {/* Categoría y Marca en la misma fila */}
+                {/* Categoría y Subcategoría en la misma fila */}
                 <div className="mb-4.5 flex gap-4">
                   <div className="w-1/2">
                     <label className="mb-2.5 block text-black dark:text-white">
                       Categoría
                     </label>
-                    <input
-                      type="text"
+                    <select
                       value={categoria}
                       onChange={(e) => setCategoria(e.target.value)}
-                      placeholder="Ingrese la categoría"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       required
-                    />
+                    >
+                      <option value="">Seleccione una categoría</option>
+                      {categorias?.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.nombre}
+                        </option>
+                      ))}
+                    </select>
                   </div>
 
                   <div className="w-1/2">
                     <label className="mb-2.5 block text-black dark:text-white">
-                      Marca
+                      Subcategoría
                     </label>
-                    <input
-                      type="text"
-                      value={marca}
-                      onChange={(e) => setMarca(e.target.value)}
-                      placeholder="Ingrese la marca"
+                    <select
+                      value={subCategoria}
+                      onChange={(e) => setSubCategoria(e.target.value)}
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       required
-                    />
+                    >
+                      <option value="">Seleccione una subcategoría</option>
+                      {filteredSubCategorias.map((subCat) => (
+                        <option key={subCat.id} value={subCat.id}>
+                          {subCat.nombre}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
+                {/* Marca */}
+                <div className="mb-4.5">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Marca
+                  </label>
+                  <select
+                    value={marca}
+                    onChange={(e) => setMarca(e.target.value)}
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    required
+                  >
+                    <option value="">Seleccione una marca</option>
+                    {marcas?.map((marca) => (
+                      <option key={marca.id} value={marca.id}>
+                        {marca.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Catálogo */}
+                <div className="mb-4.5">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Catálogo
+                  </label>
+                  <select
+                    value={catalogo}
+                    onChange={(e) => setCatalogo(e.target.value)}
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    required
+                  >
+                    <option value="">Seleccione un catálogo</option>
+                    {catalogos?.map((cat) => (
+                      <option key={cat.id} value={cat.id}>
+                        {cat.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* El resto del formulario */}
                 {/* Precio de Compra y Precio de Venta en la misma fila */}
                 <div className="mb-4.5 flex gap-4">
                   <div className="w-1/2">
@@ -169,6 +273,11 @@ const RegistrarProducto = () => {
                     required
                   ></textarea>
                 </div>
+                {errorMsg && (
+                <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md">
+                  {errorMsg}
+                </div>
+              )}
 
                 <button
                   type="submit"

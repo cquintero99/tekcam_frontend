@@ -3,6 +3,7 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { BsFillBagPlusFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../Context/UserContext';
+import CardProducto from './producto/CardProducto';
 const Inventario: React.FC = () => {
   const { modulo } = useUserContext();
   return (
@@ -22,8 +23,13 @@ const Inventario: React.FC = () => {
                 <BsFillBagPlusFill /> Producto
                 </Link>
               </div>
+      
             </div>
+
           </div>
+        </div>
+        <div className="flex flex-col gap-9">
+        <CardProducto />
         </div>
       </div>
     </>
