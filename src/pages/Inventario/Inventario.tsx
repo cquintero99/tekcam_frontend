@@ -8,7 +8,7 @@ const Inventario: React.FC = () => {
   const { modulo } = useUserContext();
   return (
     <>
-      <Breadcrumb pageName="Inventario" />
+      <Breadcrumb pageName="Inventario" lastPage='' />
       <div className="grid grid-cols-1 gap-9">
         <div className="flex flex-col gap-9">
           {/* <!-- Input Fields --> */}
@@ -18,18 +18,18 @@ const Inventario: React.FC = () => {
                 Lista de productos
               </h3>
               <div className="ml-auto">
-                <Link to={`/${modulo}/inventario/registrar`}
-                 className=" flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90">
-                <BsFillBagPlusFill /> Producto
+                <Link
+                  to={`/${modulo}/inventario/registrar`}
+                  className=" flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90"
+                >
+                  <BsFillBagPlusFill /> Producto
                 </Link>
               </div>
-      
             </div>
-
+            <div className="flex flex-col gap-9 mt-3">
+              <CardProducto />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-9">
-        <CardProducto />
         </div>
       </div>
     </>

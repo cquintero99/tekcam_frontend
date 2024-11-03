@@ -3,6 +3,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import axios from 'axios';
 import { useProductoContext } from '../../Context/ProductoContext';
 import CategoriasList from './CategoriasList';
+import Loader from '../../common/Loader';
 const ECommerce = () => {
   const { categorias, fetchCategoriasYMarcas,fetchCatalogos } = useProductoContext();
 
@@ -12,7 +13,7 @@ const ECommerce = () => {
   const [imagen, setImagen] = useState<File | null>(null);
   const [categoriaId, setCategoriaId] = useState<number | undefined>();
   const [errorMsg, setErrorMsg] = useState('');
-
+  const [loading, setLoading] = useState(false);
   // URL base del backend desde el archivo .env
   const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 
@@ -64,6 +65,7 @@ const ECommerce = () => {
     if (imagen) formData.append('file', imagen);
 
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.post(
         `${BASE_URL}detalles/categoria/save`,
@@ -84,6 +86,9 @@ const ECommerce = () => {
     } catch (error) {
       console.error('Error al guardar la categoría:', error);
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const saveSubCategoria = async () => {
@@ -95,6 +100,7 @@ const ECommerce = () => {
     };
 
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.post(
         `${BASE_URL}detalles/sub/categoria/save`,
@@ -114,6 +120,8 @@ const ECommerce = () => {
       }
     } catch (error) {
       console.error('Error al guardar la subcategoría:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -121,6 +129,7 @@ const ECommerce = () => {
     const marca = { nombre };
 
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.post(
         `${BASE_URL}detalles/marca/save`,
@@ -139,11 +148,14 @@ const ECommerce = () => {
       }
     } catch (error) {
       console.error('Error al guardar la marca:', error);
+    }finally {
+      setLoading(false);
     }
   };
   const saveCatalogo = async () => {
     const catalogo = { nombre };
     try {
+      setLoading(true);
       const token = localStorage.getItem('token');
       const response = await axios.post(
         `${BASE_URL}catalogo/save`,
@@ -163,6 +175,8 @@ const ECommerce = () => {
       }
     } catch (error) {
       console.error('Error al guardar la catalogo:', error);
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -170,7 +184,9 @@ const ECommerce = () => {
     <div className="ecommerce-container p-6">
       <div className="mb-6">
         <div className="flex gap-4">
-       
+        {loading && 
+        <Loader />
+        }
           <button
             onClick={() => handleOpenModal('categoria')}
             className="rounded bg-primary p-3 text-white"

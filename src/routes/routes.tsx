@@ -5,6 +5,8 @@ import ECommerce from '../pages/Dashboard/ECommerce';
 
 import Inventario from '../pages/Inventario/Inventario';
 import RegistrarProducto from '../pages/Inventario/registrar/RegistrarProducto';
+import EditarProducto from '../pages/Inventario/editar/EditarProducto';
+import InformacionProducto from '../pages/Inventario/informacion/InformacionProducto';
 
 const routes: RouteObject[] = [
   {
@@ -40,6 +42,24 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="Inventario Registrar Producto" />
         <RegistrarProducto />
+      </>
+    ),
+  },
+  {
+    path: '/admin/inventario/:id/editar',
+    element: (
+      <>
+        <PageTitle title="Inventario Registrar Producto" />
+        <EditarProducto />
+      </>
+    ),
+  },
+  {
+    path: '/admin/inventario/:id/informacion',
+    element: (
+      <>
+        <PageTitle title="Inventario Registrar Producto" />
+        <InformacionProducto />
       </>
     ),
   },
@@ -115,7 +135,6 @@ const routes: RouteObject[] = [
   //     </>
   //   ),
   // },
-
 ];
 
 export default routes;

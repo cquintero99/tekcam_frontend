@@ -7,6 +7,7 @@ import { FaEdit } from 'react-icons/fa';
 import { SubCategoria } from '../../types/SubCategoria';
 import { Marca } from '../../types/Marca';
 import { Catalogo } from '../../types/Catalogo';
+import Loader from '../../common/Loader';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 const token = localStorage.getItem('token');
@@ -22,7 +23,7 @@ const CategoriasList = () => {
   const [categoriaId, setCategoriaId] = useState<number | null>(null);
   const [file, setFile] = useState<File | null>(null);
   const [errorMsg, setErrorMsg] = useState('');
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (categorias && categorias.length > 0) {
       setSelectedCategoria(categorias[0]); // Selecciona la primera categoría por defecto
@@ -60,7 +61,7 @@ const CategoriasList = () => {
       if (file) {
         formData.append('file', file);
       }
-
+      setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}detalles/categoria/update`,
         formData,
@@ -79,15 +80,19 @@ const CategoriasList = () => {
         'Hubo un error al actualizar la categoría. Inténtalo de nuevo.',
       );
     }
+    finally {
+      setLoading(false);
+    }
   };
 
   const actualizarSubCategoria = async () => {
     try {
+      
       const headers = {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
-
+      setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}detalles/sub/categoria/update`,
         { id: categoriaId, nombre },
@@ -105,6 +110,8 @@ const CategoriasList = () => {
       setErrorMsg(
         'Hubo un error al actualizar la subcategoría. Inténtalo de nuevo.',
       );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,7 +121,7 @@ const CategoriasList = () => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
-
+        setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}detalles/marca/update`,
         { id: categoriaId, nombre },
@@ -130,6 +137,8 @@ const CategoriasList = () => {
     } catch (error) {
       console.error('Error al actualizar la marca:', error);
       setErrorMsg('Hubo un error al actualizar la marca. Inténtalo de nuevo.');
+    } finally {
+      setLoading(false);
     }
   };
   const actualizarCatalogo = async () => {
@@ -138,6 +147,7 @@ const CategoriasList = () => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };      
+      setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}catalogo/update`,
         { id: categoriaId, nombre },
@@ -154,6 +164,8 @@ const CategoriasList = () => {
       setErrorMsg(
         'Hubo un error al actualizar la catalogo. Inténtalo de nuevo.',
       );
+    }finally {
+      setLoading(false);
     }
   };
 
@@ -173,6 +185,9 @@ const CategoriasList = () => {
   return (
     <div className="flex flex-col space-y-8 w-full">
       {/* Fila de categorías */}
+      {loading && 
+      <Loader />
+      }
       <div className="flex flex-nowrap justify-start space-x-4 overflow-x-auto p-4 w-full border-b border-gray-300">
         {categorias?.map((categoria) => (
           <div

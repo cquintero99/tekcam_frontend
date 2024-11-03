@@ -4,13 +4,14 @@ import { useProductoContext } from '../../../Context/ProductoContext';
 import { SubCategoria } from '../../../types/SubCategoria';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../../common/Loader';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 const token = localStorage.getItem('token');
 
-
 const RegistrarProducto = () => {
-  const { categorias, marcas, catalogos,fetchProductos } = useProductoContext();
+  const { categorias, marcas, catalogos, fetchProductos } =
+    useProductoContext();
   const [nombre, setNombre] = useState('');
   const [categoria, setCategoria] = useState('');
   const [subCategoria, setSubCategoria] = useState('');
@@ -22,13 +23,18 @@ const RegistrarProducto = () => {
   const [precioVenta, setPrecioVenta] = useState<number | undefined>();
   const [visible, setVisible] = useState(false);
   const [imagenes, setImagenes] = useState<File[]>([]);
-  const [filteredSubCategorias, setFilteredSubCategorias] = useState<SubCategoria[]>([]);
+  const [filteredSubCategorias, setFilteredSubCategorias] = useState<
+    SubCategoria[]
+  >([]);
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Filtrar subcategorías basadas en la categoría seleccionada
     if (categoria) {
-      const categoriaSeleccionada = categorias?.find((cat) => cat.id === parseInt(categoria));
+      const categoriaSeleccionada = categorias?.find(
+        (cat) => cat.id === parseInt(categoria),
+      );
       setFilteredSubCategorias(categoriaSeleccionada?.subCategorias ?? []);
     } else {
       setFilteredSubCategorias([]);
@@ -50,28 +56,37 @@ const RegistrarProducto = () => {
     setErrorMsg('');
     const formData = new FormData();
 
-    formData.append('producto', new Blob([JSON.stringify({
-      nombre,
-      categoria,
-      subCategoria: {
-        id:parseInt(subCategoria)
-      },
-      marca: {
-        id:parseInt(marca)
-      },
-      catalogo: {
-        id:parseInt(catalogo)
-      },
-      descripcion,
-      stock,
-      precioCompra,
-      precioVenta,
-      visible,
-    })], { type: 'application/json' }));
+    formData.append(
+      'producto',
+      new Blob(
+        [
+          JSON.stringify({
+            nombre,
+            categoria,
+            subCategoria: {
+              id: parseInt(subCategoria),
+            },
+            marca: {
+              id: parseInt(marca),
+            },
+            catalogo: {
+              id: parseInt(catalogo),
+            },
+            descripcion,
+            stock,
+            precioCompra,
+            precioVenta,
+            visible,
+          }),
+        ],
+        { type: 'application/json' },
+      ),
+    );
 
     imagenes.forEach((imagen) => formData.append('files', imagen));
 
     try {
+      setLoading(true);
       const response = await axios.post(`${BASE_URL}producto/save`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -80,7 +95,7 @@ const RegistrarProducto = () => {
       });
       if (response.data.success) {
         console.log('Producto guardado:', response.data);
-        navigate(-1)
+        navigate(-1);
         fetchProductos();
       } else {
         console.error('Error al guardar el producto:', response.data);
@@ -89,13 +104,17 @@ const RegistrarProducto = () => {
       console.log('Producto guardado:', response.data);
     } catch (error) {
       console.error('Error al guardar el producto:', error);
+    }finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <Breadcrumb pageName="Registrar Producto" />
-
+      <Breadcrumb pageName="Registrar producto" lastPage="inventario" />
+    {loading && 
+    <Loader />
+    }
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-9">
           {/* <!-- Registrar Producto Form --> */}
@@ -213,7 +232,9 @@ const RegistrarProducto = () => {
                     <input
                       type="number"
                       value={precioCompra}
-                      onChange={(e) => setPrecioCompra(parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        setPrecioCompra(parseFloat(e.target.value))
+                      }
                       placeholder="Ingrese el precio de compra"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -226,7 +247,9 @@ const RegistrarProducto = () => {
                     <input
                       type="number"
                       value={precioVenta}
-                      onChange={(e) => setPrecioVenta(parseFloat(e.target.value))}
+                      onChange={(e) =>
+                        setPrecioVenta(parseFloat(e.target.value))
+                      }
                       placeholder="Ingrese el precio de venta"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
@@ -255,7 +278,9 @@ const RegistrarProducto = () => {
                       onChange={(e) => setVisible(e.target.checked)}
                       className="mr-2"
                     />
-                    <span className="text-black dark:text-white">¿Producto visible?</span>
+                    <span className="text-black dark:text-white">
+                      ¿Producto visible?
+                    </span>
                   </div>
                 </div>
 
@@ -274,10 +299,10 @@ const RegistrarProducto = () => {
                   ></textarea>
                 </div>
                 {errorMsg && (
-                <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md">
-                  {errorMsg}
-                </div>
-              )}
+                  <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md">
+                    {errorMsg}
+                  </div>
+                )}
 
                 <button
                   type="submit"
@@ -293,7 +318,9 @@ const RegistrarProducto = () => {
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">Imágenes</h3>
+              <h3 className="font-medium text-black dark:text-white">
+                Imágenes
+              </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
@@ -311,11 +338,18 @@ const RegistrarProducto = () => {
 
               {imagenes.length > 0 && (
                 <div className="mt-4">
-                  <h4 className="text-black dark:text-white mb-2">Imágenes Agregadas:</h4>
+                  <h4 className="text-black dark:text-white mb-2">
+                    Imágenes Agregadas:
+                  </h4>
                   <ul>
                     {imagenes.map((imagen, index) => (
-                      <li key={index} className="flex items-center justify-between mb-2">
-                        <span className="text-black dark:text-white">{imagen.name}</span>
+                      <li
+                        key={index}
+                        className="flex items-center justify-between mb-2"
+                      >
+                        <span className="text-black dark:text-white">
+                          {imagen.name}
+                        </span>
                         <button
                           onClick={() => handleEliminarImagen(index)}
                           className="text-red-500 hover:text-red-700"
