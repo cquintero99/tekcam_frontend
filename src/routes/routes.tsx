@@ -7,6 +7,9 @@ import Inventario from '../pages/Inventario/Inventario';
 import RegistrarProducto from '../pages/Inventario/registrar/RegistrarProducto';
 import EditarProducto from '../pages/Inventario/editar/EditarProducto';
 import InformacionProducto from '../pages/Inventario/informacion/InformacionProducto';
+import Profile from '../pages/Profile';
+import Usuarios from '../pages/Usuarios/Usuarios';
+import RegistrarUsuario from '../pages/Usuarios/registrar/RegistrarUsuario';
 
 const routes: RouteObject[] = [
   {
@@ -18,15 +21,7 @@ const routes: RouteObject[] = [
       </>
     ),
   },
-  // {
-  //   path: '/admin/calendar',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Calendar | IT Solutions NYC" />
-  //       <Calendar />
-  //     </>
-  //   ),
-  // },
+
   {
     path: '/admin/inventario',
     element: (
@@ -63,78 +58,34 @@ const routes: RouteObject[] = [
       </>
     ),
   },
-  // {
-  //   path: '/admin/profile',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Profile | IT Solutions NYC" />
-  //       <Profile />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/forms/form-elements',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Form Elements | IT Solutions NYC" />
-  //       <FormElements />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/forms/form-layout',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Form Layout | IT Solutions NYC" />
-  //       <FormLayout />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/tables',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Tables | IT Solutions NYC" />
-  //       <Tables />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/settings',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Settings | IT Solutions NYC" />
-  //       <Settings />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/chart',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Basic Chart | IT Solutions NYC" />
-  //       <Chart />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/ui/alerts',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Alerts | IT Solutions NYC" />
-  //       <Alerts />
-  //     </>
-  //   ),
-  // },
-  // {
-  //   path: '/admin/ui/buttons',
-  //   element: (
-  //     <>
-  //       <PageTitle title="Buttons | IT Solutions NYC" />
-  //       <Buttons />
-  //     </>
-  //   ),
-  // },
+  {
+    path: '/admin/usuarios',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <Usuarios />
+      </>
+    ),
+  },  {
+    path: '/admin/usuarios/registrar',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <RegistrarUsuario />
+      </>
+    ),
+  },
+  
+  {
+    path: '/admin/perfil',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <Profile />
+      </>
+    ),
+  },
+
 ];
 
 export default routes;

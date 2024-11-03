@@ -183,7 +183,7 @@ const CategoriasList = () => {
   };
 
   return (
-    <div className="flex flex-col space-y-8 w-full">
+    <div className="flex flex-col space-y-2 w-full">
       {/* Fila de categorías */}
       {loading && 
       <Loader />
@@ -207,7 +207,7 @@ const CategoriasList = () => {
               />
               <FaEdit
                 onClick={() => handleEditClick('categoria', categoria)}
-                className="w-5 h-5 absolute top-0 right-0 text-gray-500 cursor-pointer"
+                className="w-5 h-5 absolute top-0 right-0 text-orange-500 hover:text-orange-700  cursor-pointer"
               />
             </div>
             <p className="text-center mt-2 text-sm font-medium">
@@ -227,9 +227,9 @@ const CategoriasList = () => {
               Subcategorías de {selectedCategoria?.nombre || ''}
             </h3>
           </div>
-          <div className="p-7">
+          <div className="p-7 max-h-[600px] overflow-y-auto" >
             {selectedCategoria && selectedCategoria.subCategorias ? (
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse ">
                 <thead>
                   <tr>
                     <th className="border-b p-2 dark:border-strokedark">ID</th>
@@ -255,7 +255,7 @@ const CategoriasList = () => {
                           onClick={() =>
                             handleEditClick('subCategoria', subcategoria)
                           }
-                          className="w-5 h-5 text-gray-500 cursor-pointer"
+                          className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
                         />
                       </td>
                     </tr>
@@ -275,7 +275,7 @@ const CategoriasList = () => {
               Marcas
             </h3>
           </div>
-          <div className="p-7">
+          <div className="p-7 max-h-[600px] overflow-y-auto">
             {marcas && marcas.length > 0 ? (
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -301,7 +301,7 @@ const CategoriasList = () => {
                       <td className="border-b p-2 dark:border-strokedark">
                         <FaEdit
                           onClick={() => handleEditClick('marca', marca)}
-                          className="w-5 h-5 text-gray-500 cursor-pointer"
+                          className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
                         />
                       </td>
                     </tr>
@@ -320,7 +320,7 @@ const CategoriasList = () => {
               Catalogos
             </h3>
           </div>
-          <div className="p-7">
+          <div className="p-7 max-h-[600px] overflow-y-auto">
             {catalogos && catalogos.length > 0 ? (
               <table className="w-full text-left border-collapse">
                 <thead>
@@ -346,7 +346,7 @@ const CategoriasList = () => {
                         <td className="border-b p-2 dark:border-strokedark">
                           <FaEdit
                             onClick={() => handleEditClick('catalogo', catalogo)}
-                            className="w-5 h-5 text-gray-500 cursor-pointer"
+                            className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
                           />
                         </td>
                       </tr>

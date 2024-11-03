@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import DropdownUser from './DropdownUser';
 import LogoIcon from '../../images/logo/logo-icon.svg';
 import DarkModeSwitcher from './DarkModeSwitcher';
-import { useUserContext } from '../../Context/UserContext';
 
 const Header = (props: {
   sidebarOpen: string | boolean | undefined;

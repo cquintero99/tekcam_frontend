@@ -100,7 +100,6 @@ export const ProductoProvider: React.FC<{ children: ReactNode }> = ({
       const productosResponse = await axios.get(`${BASE_URL}producto/all`, {
         headers,
       });
-      console.log(productosResponse);
       setProductos(productosResponse.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);

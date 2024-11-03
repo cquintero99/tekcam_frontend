@@ -113,7 +113,7 @@ const EditarProducto = () => {
       ),
     );
 
-    imagenes.forEach((imagen) => formData.append('files', imagen));
+    imagenes?.forEach((imagen) => formData.append('files', imagen));
     console.log(formValues);
     console.log(imagenes);
 
@@ -125,6 +125,7 @@ const EditarProducto = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+      console.log(response);
       if (response.data.success) {
         navigate(-1);
         fetchProductos();
@@ -132,7 +133,7 @@ const EditarProducto = () => {
         setErrorMsg(response.data.msg);
       }
     } catch (error) {
-      console.error('Error al guardar el producto:', error);
+      console.error( error);
       setErrorMsg('Error al guardar el producto');
     } finally {
       setLoading(false);

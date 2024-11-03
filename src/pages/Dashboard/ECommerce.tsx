@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useProductoContext } from '../../Context/ProductoContext';
 import CategoriasList from './CategoriasList';
 import Loader from '../../common/Loader';
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 const ECommerce = () => {
   const { categorias, fetchCategoriasYMarcas,fetchCatalogos } = useProductoContext();
 
@@ -181,9 +182,11 @@ const ECommerce = () => {
   };
 
   return (
-    <div className="ecommerce-container p-6">
-      <div className="mb-6">
-        <div className="flex gap-4">
+   <>
+   <Breadcrumb pageName="Dashboard" lastPage="" />
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      <div className="mb-2">
+        <div className="flex gap-4 p-4">
         {loading && 
         <Loader />
         }
@@ -305,6 +308,7 @@ const ECommerce = () => {
         </Dialog.Portal>
       </Dialog.Root>
     </div>
+   </>
   );
 };
 

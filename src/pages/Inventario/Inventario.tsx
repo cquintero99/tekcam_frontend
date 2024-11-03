@@ -19,6 +19,7 @@ const Inventario: React.FC = () => {
               </h3>
               <div className="ml-auto">
                 <Link
+                title='Registrar Producto'
                   to={`/${modulo}/inventario/registrar`}
                   className=" flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90"
                 >
@@ -27,7 +28,7 @@ const Inventario: React.FC = () => {
               </div>
             </div>
             <div className="flex flex-col gap-9 mt-3">
-              <CardProducto />
+              <CardProducto  />
             </div>
           </div>
         </div>

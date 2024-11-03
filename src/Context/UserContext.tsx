@@ -37,7 +37,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const parseToken = (token: string) => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log(payload);
+      
       setModulo(payload?.rol?.nombre?.toLowerCase());
       setUser(payload);
     } catch (error) {
