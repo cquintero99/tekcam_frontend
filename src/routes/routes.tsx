@@ -12,6 +12,9 @@ import Vendedores from '../pages/Vendedor/Vendedores';
 import RegistrarVendedor from '../pages/Vendedor/registrar/RegistrarVendedor';
 import EditarVendedor from '../pages/Vendedor/editar/EditarVendedor';
 import Perfil from '../pages/Perfil';
+import Inicio from '../pages/Cliente/Inicio';
+import SignIn from '../pages/Authentication/SignIn';
+import Productos from '../pages/Cliente/Productos/Productos';
 
 const routes: RouteObject[] = [
   {
@@ -150,6 +153,34 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="Perfil" />
         <Perfil />
+      </>
+    ),
+  },
+ 
+  {
+    path: '/cliente/',
+    element: (
+      <>
+        <PageTitle title="TEKCAM eCommerce " />
+        <Inicio />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/login',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Login " />
+        <SignIn />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/productos',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Login " />
+        <Productos />
       </>
     ),
   },

@@ -12,6 +12,7 @@ import routes from './routes/routes';
 import DefaultLayout from './layout/DefaultLayout';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
+import ClienteLayout from './layout/ClienteLayout';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
@@ -36,9 +37,13 @@ function App() {
         path="/vendedor/*"
         element={<DefaultLayout> {routing}</DefaultLayout>}
       />
-      <Route path="/login" element={<SignIn />} />
-      <Route path="/auth/signup" element={<SignUp />} />
-      <Route path="*" element={<Navigate to="/login" replace />} />
+       <Route
+        path="/cliente/*"
+        element={<ClienteLayout> {routing}</ClienteLayout>}
+      />
+      {/* <Route path="/login" element={<SignIn />} />
+      <Route path="/auth/signup" element={<SignUp />} /> */}
+      <Route path="*" element={<Navigate to="/cliente" replace />} />
     </Routes>
   );
 }

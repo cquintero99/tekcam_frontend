@@ -33,15 +33,15 @@ const routesSidebar: RouteItem[] = [
 
   { to: '/admin/inventario', icon: AiFillDropboxSquare, label: 'Inventario' },
 
-  // {
-  //   to: '/admin/ui',
-  //   icon: AiOutlineSetting,
-  //   label: 'UI Elements',
-  //   subRoutes: [
-  //     { to: '/admin/ui/alerts', icon: null, label: 'Alerts' },
-  //     { to: '/admin/ui/buttons', icon: null, label: 'Buttons' },
-  //   ],
-  // },
+  {
+    to: '/admin/ui',
+    icon: AiFillDropboxSquare,
+    label: 'UI Elements',
+    subRoutes: [
+      { to: '/admin/ui/alerts', icon: null, label: 'Alerts' },
+      { to: '/admin/ui/buttons', icon: null, label: 'Buttons' },
+    ],
+  },
 ];
 const routesSidebarVendedor: RouteItem[] = [
   {
