@@ -6,7 +6,7 @@ import { useUserContext } from '../../Context/UserContext';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { modulo ,user} = useUserContext();
+  const { modulo ,usuario} = useUserContext();
   const handleLogout=()=>{
     localStorage.clear();
   }
@@ -19,7 +19,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {user?.nombre}
+            {usuario?.nombre}
           </span>
           <span className="block text-xs">{modulo}</span>
         </span>
@@ -79,7 +79,7 @@ const DropdownUser = () => {
           
           </ul>
           <Link 
-          to="/auth/signin"
+          to="/login"
           onClick={handleLogout}
           className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
             <svg

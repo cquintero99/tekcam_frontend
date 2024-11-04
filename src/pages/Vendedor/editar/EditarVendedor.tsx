@@ -1,43 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState,  useMemo } from 'react';
 import axios from 'axios';
 import Breadcrumb from '../../../components/Breadcrumbs/Breadcrumb';
 import { useUsuariosContext } from '../../../Context/UsuariosContext';
 import Loader from '../../../common/Loader';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Usuario } from '../../../types/Usuario';
 import { Rol } from '../../../types/Rol';
+import { useUserContext } from '../../../Context/UserContext';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 const token = localStorage.getItem('token');
 
 type FormData = {
+  id: number;
   nombre: string;
   email: string;
   cedula: string;
   celular: string;
   direccion: string;
-  password: string;
   rol: Rol | null;
+  activo: boolean;
 };
 
-const RegistrarUsuario: React.FC = () => {
-  const { roles, fetchUsuarios } = useUsuariosContext();
+const EditarVendedor: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const {modulo}=useUserContext();
+  const { roles, usuarios, fetchUsuarios } = useUsuariosContext();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
+
+  const usuario = useMemo(
+    () =>
+      usuarios?.find((item: Usuario) => item.id === parseInt(id ?? '0', 10)),
+    [usuarios, id],
+  );
+
   const [formData, setFormData] = useState<FormData>({
-    nombre: '',
-    email: '',
-    cedula: '',
-    celular: '',
-    direccion: '',
-    password: '',
-    rol: null,
+    id: usuario?.id || 0,
+    nombre: usuario?.nombre || '',
+    email: usuario?.email || '',
+    cedula: usuario?.cedula || '',
+    celular: usuario?.celular || '',
+    direccion: usuario?.direccion || '',
+    rol: usuario?.rol || null,
+    activo: usuario?.activo || false,
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
   ) => {
-    const { name, value } = e.target;
+    const target = e.target as HTMLInputElement;
+    const { name, value, type, checked } = target;
     if (name === 'rol') {
       const selectedRol = roles?.find((rol) => rol.id === parseInt(value));
       setFormData((prevData) => ({
@@ -45,43 +61,34 @@ const RegistrarUsuario: React.FC = () => {
         rol: selectedRol || null,
       }));
     } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value,
       }));
     }
   };
-  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData);
     try {
       setLoading(true);
-      const response = await axios.post(`${BASE_URL}usuario/save`, formData, {
+      const response = await axios.put(`${BASE_URL}usuario/update`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       if (response.data.success) {
-        setFormData({
-          nombre: '',
-          email: '',
-          cedula: '',
-          celular: '',
-          direccion: '',
-          password: '',
-          rol: null,
-        });
-        console.log('Usuario registrado:', response.data);
+        console.log('Usuario actualizado:', response.data);
         fetchUsuarios();
-        navigate(-1)
+        navigate(-1);
       } else {
         setErrorMsg(response.data.msg);
       }
     } catch (error) {
-      setErrorMsg('Error al registrar el usuario');
-      console.error('Error al registrar el usuario:', error);
+      setErrorMsg('Error al actualizar el usuario');
+      console.error('Error al actualizar el usuario:', error);
     } finally {
       setLoading(false);
     }
@@ -89,7 +96,7 @@ const RegistrarUsuario: React.FC = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Registrar Usuario" lastPage="usuarios" />
+      <Breadcrumb pageName="Editar Vendedor" lastPage="vendedores" />
       {loading && <Loader />}
       <div className="w-full max-w-5xl mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -101,7 +108,8 @@ const RegistrarUsuario: React.FC = () => {
                 value={formData.rol?.id}
                 onChange={handleChange}
                 className="w-full rounded border p-2"
-                required
+                required={modulo!=="admin"}
+                disabled
               >
                 <option value="">Seleccione un rol</option>
                 {roles
@@ -115,11 +123,10 @@ const RegistrarUsuario: React.FC = () => {
             </div>
             {[
               { label: 'Nombre', name: 'nombre', type: 'text' },
-              { label: 'Email', name: 'email', type: 'email' },
+              { label: 'Email', name: 'email', type: 'text' },
               { label: 'Cédula', name: 'cedula', type: 'text' },
               { label: 'Celular', name: 'celular', type: 'text' },
               { label: 'Dirección', name: 'direccion', type: 'text' },
-              { label: 'Password', name: 'password', type: 'password' },
             ].map(({ label, name, type }) => (
               <div key={name} className="w-full">
                 <label className="block text-sm font-medium mb-1">
@@ -135,6 +142,16 @@ const RegistrarUsuario: React.FC = () => {
                 />
               </div>
             ))}
+            <div className="mb-4.5 flex items-center">
+              <input
+                name="activo"
+                type="checkbox"
+                checked={formData.activo}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              <span className="text-black dark:text-white">Activo</span>
+            </div>
           </div>
           {errorMsg && (
             <div className="mb-4 p-2 bg-red-100 text-red-700 rounded-md">
@@ -147,7 +164,7 @@ const RegistrarUsuario: React.FC = () => {
               type="submit"
               className="w-full mt-2 p-2.5 flex-1 text-white bg-indigo-600 rounded-md"
             >
-              Registrar
+              Actualizar
             </button>
           </div>
         </form>
@@ -156,4 +173,4 @@ const RegistrarUsuario: React.FC = () => {
   );
 };
 
-export default RegistrarUsuario;
+export default EditarVendedor;

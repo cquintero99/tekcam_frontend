@@ -50,7 +50,6 @@ export const UsuariosProvider: React.FC<{ children: ReactNode }> = ({
       const rolesResponse = await axios.get(`${BASE_URL}rol/all`, {
         headers,
       });
-      console.log(rolesResponse);
       setRoles(rolesResponse.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -62,7 +61,7 @@ export const UsuariosProvider: React.FC<{ children: ReactNode }> = ({
         Authorization: `Bearer ${token}`,
       };
       // Solicitud para obtener los usuarios
-      const usuariosResponse = await axios.get(`${BASE_URL}usuario/all`, {
+      const usuariosResponse = await axios.get(`${BASE_URL}rol/vendedor`, {
         headers,
       });
       setUsuarios(usuariosResponse.data.data);

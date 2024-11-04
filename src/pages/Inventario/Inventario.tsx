@@ -17,6 +17,7 @@ const Inventario: React.FC = () => {
               <h3 className="font-medium text-black dark:text-white">
                 Lista de productos
               </h3>
+              {modulo==='admin' && (
               <div className="ml-auto">
                 <Link
                 title='Registrar Producto'
@@ -26,6 +27,7 @@ const Inventario: React.FC = () => {
                   <BsFillBagPlusFill /> Producto
                 </Link>
               </div>
+              )}
             </div>
             <div className="flex flex-col gap-9 mt-3">
               <CardProducto  />

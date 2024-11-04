@@ -5,9 +5,10 @@ import { useProductoContext } from '../../Context/ProductoContext';
 import CategoriasList from './CategoriasList';
 import Loader from '../../common/Loader';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
+import { useUserContext } from '../../Context/UserContext';
 const ECommerce = () => {
   const { categorias, fetchCategoriasYMarcas,fetchCatalogos } = useProductoContext();
-
+  const {modulo}=useUserContext();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [entityType, setEntityType] = useState<string>('');
   const [nombre, setNombre] = useState<string>('');
@@ -184,12 +185,14 @@ const ECommerce = () => {
   return (
    <>
    <Breadcrumb pageName="Dashboard" lastPage="" />
-    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="mb-2">
-        <div className="flex gap-4 p-4">
-        {loading && 
+   {loading && 
         <Loader />
         }
+    <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+      {modulo==="admin" && (
+      <div className="mb-2">
+        <div className="flex gap-4 p-4">
+       
           <button
             onClick={() => handleOpenModal('categoria')}
             className="rounded bg-primary p-3 text-white"
@@ -216,6 +219,7 @@ const ECommerce = () => {
           </button>
         </div>
       </div>
+      )}
       
       <div className="flex space-x-4 overflow-x-auto p-4">
         <CategoriasList />

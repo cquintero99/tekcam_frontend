@@ -7,10 +7,11 @@ import Inventario from '../pages/Inventario/Inventario';
 import RegistrarProducto from '../pages/Inventario/registrar/RegistrarProducto';
 import EditarProducto from '../pages/Inventario/editar/EditarProducto';
 import InformacionProducto from '../pages/Inventario/informacion/InformacionProducto';
-import Profile from '../pages/Profile';
-import Usuarios from '../pages/Usuarios/Usuarios';
-import RegistrarUsuario from '../pages/Usuarios/registrar/RegistrarUsuario';
-import EditarUsuario from '../pages/Usuarios/editar/EditarUsuario';
+
+import Vendedores from '../pages/Vendedor/Vendedores';
+import RegistrarVendedor from '../pages/Vendedor/registrar/RegistrarVendedor';
+import EditarVendedor from '../pages/Vendedor/editar/EditarVendedor';
+import Perfil from '../pages/Perfil';
 
 const routes: RouteObject[] = [
   {
@@ -60,29 +61,29 @@ const routes: RouteObject[] = [
     ),
   },
   {
-    path: '/admin/usuarios',
+    path: '/admin/vendedores',
     element: (
       <>
         <PageTitle title="Perfil" />
-        <Usuarios />
+        <Vendedores />
       </>
     ),
   },
   {
-    path: '/admin/usuarios/registrar',
+    path: '/admin/vendedores/registrar',
     element: (
       <>
         <PageTitle title="Perfil" />
-        <RegistrarUsuario />
+        <RegistrarVendedor />
       </>
     ),
   },
   {
-    path: '/admin/usuarios/:id/editar',
+    path: '/admin/vendedores/:id/editar',
     element: (
       <>
         <PageTitle title="Perfil" />
-        <EditarUsuario />
+        <EditarVendedor />
       </>
     ),
   },
@@ -92,7 +93,63 @@ const routes: RouteObject[] = [
     element: (
       <>
         <PageTitle title="Perfil" />
-        <Profile />
+        <Perfil />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/',
+    element: (
+      <>
+        <PageTitle title="eCommerce Dashboard | IT Solutions NYC" />
+        <ECommerce />
+      </>
+    ),
+  },
+
+  {
+    path: '/vendedor/inventario',
+    element: (
+      <>
+        <PageTitle title="Inventario " />
+        <Inventario />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/inventario/registrar',
+    element: (
+      <>
+        <PageTitle title="Inventario Registrar Producto" />
+        <RegistrarProducto />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/inventario/:id/editar',
+    element: (
+      <>
+        <PageTitle title="Inventario Registrar Producto" />
+        <EditarProducto />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/inventario/:id/informacion',
+    element: (
+      <>
+        <PageTitle title="Inventario Registrar Producto" />
+        <InformacionProducto />
+      </>
+    ),
+  },
+
+  {
+    path: '/vendedor/perfil',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <Perfil />
       </>
     ),
   },

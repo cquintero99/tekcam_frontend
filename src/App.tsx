@@ -32,9 +32,13 @@ function App() {
         path="/admin/*"
         element={<DefaultLayout> {routing}</DefaultLayout>}
       />
-      <Route path="/auth/signin" element={<SignIn />} />
+       <Route
+        path="/vendedor/*"
+        element={<DefaultLayout> {routing}</DefaultLayout>}
+      />
+      <Route path="/login" element={<SignIn />} />
       <Route path="/auth/signup" element={<SignUp />} />
-      <Route path="*" element={<Navigate to="/auth/signin" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );
 }

@@ -8,15 +8,23 @@ import { SubCategoria } from '../../types/SubCategoria';
 import { Marca } from '../../types/Marca';
 import { Catalogo } from '../../types/Catalogo';
 import Loader from '../../common/Loader';
+import { useUserContext } from '../../Context/UserContext';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
 const token = localStorage.getItem('token');
 
 const CategoriasList = () => {
-  const { categorias, marcas, fetchCategoriasYMarcas,catalogos,fetchCatalogos } = useProductoContext();
+  const {
+    categorias,
+    marcas,
+    fetchCategoriasYMarcas,
+    catalogos,
+    fetchCatalogos,
+  } = useProductoContext();
   const [selectedCategoria, setSelectedCategoria] = useState<Categoria | null>(
     null,
   );
+  const { modulo } = useUserContext();
   const [modalOpen, setModalOpen] = useState(false);
   const [entityType, setEntityType] = useState('');
   const [nombre, setNombre] = useState('');
@@ -36,7 +44,7 @@ const CategoriasList = () => {
 
   const handleEditClick = (
     type: string,
-    entity: Categoria | SubCategoria | Marca| Catalogo
+    entity: Categoria | SubCategoria | Marca | Catalogo,
   ) => {
     setEntityType(type);
     setNombre(entity.nombre);
@@ -79,15 +87,13 @@ const CategoriasList = () => {
       setErrorMsg(
         'Hubo un error al actualizar la categoría. Inténtalo de nuevo.',
       );
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
 
   const actualizarSubCategoria = async () => {
     try {
-      
       const headers = {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -121,7 +127,7 @@ const CategoriasList = () => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       };
-        setLoading(true);
+      setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}detalles/marca/update`,
         { id: categoriaId, nombre },
@@ -146,7 +152,7 @@ const CategoriasList = () => {
       const headers = {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
-      };      
+      };
       setLoading(true);
       const response: AxiosResponse<any> = await axios.put(
         `${BASE_URL}catalogo/update`,
@@ -164,7 +170,7 @@ const CategoriasList = () => {
       setErrorMsg(
         'Hubo un error al actualizar la catalogo. Inténtalo de nuevo.',
       );
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -177,7 +183,7 @@ const CategoriasList = () => {
       actualizarSubCategoria();
     } else if (entityType === 'marca') {
       actualizarMarca();
-    }else if (entityType === 'catalogo') {
+    } else if (entityType === 'catalogo') {
       actualizarCatalogo();
     }
   };
@@ -185,9 +191,7 @@ const CategoriasList = () => {
   return (
     <div className="flex flex-col space-y-2 w-full">
       {/* Fila de categorías */}
-      {loading && 
-      <Loader />
-      }
+      {loading && <Loader />}
       <div className="flex flex-nowrap justify-start space-x-4 overflow-x-auto p-4 w-full border-b border-gray-300">
         {categorias?.map((categoria) => (
           <div
@@ -205,10 +209,12 @@ const CategoriasList = () => {
                 }`}
                 onClick={() => handleCategoriaClick(categoria)}
               />
-              <FaEdit
-                onClick={() => handleEditClick('categoria', categoria)}
-                className="w-5 h-5 absolute top-0 right-0 text-orange-500 hover:text-orange-700  cursor-pointer"
-              />
+              {modulo === 'admin' && (
+                <FaEdit
+                  onClick={() => handleEditClick('categoria', categoria)}
+                  className="w-5 h-5 absolute top-0 right-0 text-orange-500 hover:text-orange-700  cursor-pointer"
+                />
+              )}
             </div>
             <p className="text-center mt-2 text-sm font-medium">
               {categoria.nombre}
@@ -219,7 +225,6 @@ const CategoriasList = () => {
 
       {/* Fila de tablas para subcategorías y marcas */}
       <div className="w-full grid grid-cols-1 xl:grid-cols-3 gap-8 mt-4">
-       
         {/* Tabla de subcategorías */}
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
@@ -227,7 +232,7 @@ const CategoriasList = () => {
               Subcategorías de {selectedCategoria?.nombre || ''}
             </h3>
           </div>
-          <div className="p-7 max-h-[600px] overflow-y-auto" >
+          <div className="p-7 max-h-[600px] overflow-y-auto">
             {selectedCategoria && selectedCategoria.subCategorias ? (
               <table className="w-full text-left border-collapse ">
                 <thead>
@@ -236,9 +241,11 @@ const CategoriasList = () => {
                     <th className="border-b p-2 dark:border-strokedark">
                       Nombre
                     </th>
-                    <th className="border-b p-2 dark:border-strokedark">
-                      Acciones
-                    </th>
+                    {modulo === 'admin' && (
+                      <th className="border-b p-2 dark:border-strokedark">
+                        Acciones
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -250,14 +257,17 @@ const CategoriasList = () => {
                       <td className="border-b p-2 dark:border-strokedark">
                         {subcategoria.nombre}
                       </td>
-                      <td className="border-b p-2 dark:border-strokedark">
-                        <FaEdit
-                          onClick={() =>
-                            handleEditClick('subCategoria', subcategoria)
-                          }
-                          className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
-                        />
-                      </td>
+                      {modulo === 'admin' &&(
+                         <td className="border-b p-2 dark:border-strokedark">
+                         <FaEdit
+                           onClick={() =>
+                             handleEditClick('subCategoria', subcategoria)
+                           }
+                           className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
+                         />
+                       </td>
+                      )}
+                     
                     </tr>
                   ))}
                 </tbody>
@@ -284,9 +294,12 @@ const CategoriasList = () => {
                     <th className="border-b p-2 dark:border-strokedark">
                       Nombre
                     </th>
-                    <th className="border-b p-2 dark:border-strokedark">
+                    {modulo==="admin" && (
+                      <th className="border-b p-2 dark:border-strokedark">
                       Acciones
                     </th>
+                    )}
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -298,12 +311,15 @@ const CategoriasList = () => {
                       <td className="border-b p-2 dark:border-strokedark">
                         {marca.nombre}
                       </td>
-                      <td className="border-b p-2 dark:border-strokedark">
+                      {modulo==="admin" &&(
+                        <td className="border-b p-2 dark:border-strokedark">
                         <FaEdit
                           onClick={() => handleEditClick('marca', marca)}
                           className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
                         />
                       </td>
+                      )}
+                      
                     </tr>
                   ))}
                 </tbody>
@@ -313,8 +329,8 @@ const CategoriasList = () => {
             )}
           </div>
         </div>
-         {/* Tabla de Catalogos */}
-         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        {/* Tabla de Catalogos */}
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white uppercase">
               Catalogos
@@ -329,29 +345,33 @@ const CategoriasList = () => {
                     <th className="border-b p-2 dark:border-strokedark">
                       Nombre
                     </th>
-                    <th className="border-b p-2 dark:border-strokedark">
-                      Acciones
-                    </th>
+                    {modulo==="admin" && (
+                        <th className="border-b p-2 dark:border-strokedark">
+                        Acciones
+                      </th>
+                    )}
+                  
                   </tr>
                 </thead>
                 <tbody>
-                    {catalogos.map((catalogo) => (
-                      <tr key={catalogo.id}>
-                        <td className="border-b p-2 dark:border-strokedark">
-                          {catalogo.id}
-                        </td>
-                        <td className="border-b p-2 dark:border-strokedark">
-                          {catalogo.nombre}
-                        </td>
-                        <td className="border-b p-2 dark:border-strokedark">
-                          <FaEdit
-                            onClick={() => handleEditClick('catalogo', catalogo)}
-                            className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
-                          />
-                        </td>
-                      </tr>
-                    ))}
-               
+                  {catalogos.map((catalogo) => (
+                    <tr key={catalogo.id}>
+                      <td className="border-b p-2 dark:border-strokedark">
+                        {catalogo.id}
+                      </td>
+                      <td className="border-b p-2 dark:border-strokedark">
+                        {catalogo.nombre}
+                      </td>
+                      {modulo==="admin" && (
+                      <td className="border-b p-2 dark:border-strokedark">
+                        <FaEdit
+                          onClick={() => handleEditClick('catalogo', catalogo)}
+                          className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer"
+                        />
+                      </td>
+                      )}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             ) : (

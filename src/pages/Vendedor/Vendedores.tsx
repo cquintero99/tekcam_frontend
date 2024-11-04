@@ -7,7 +7,7 @@ import { useUserContext } from '../../Context/UserContext';
 import { useUsuariosContext } from '../../Context/UsuariosContext';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 
-const Usuarios: React.FC = () => {
+const Vendedores: React.FC = () => {
   const { modulo } = useUserContext();
   const { usuarios, fetchUsuarios } = useUsuariosContext();
 
@@ -17,19 +17,19 @@ const Usuarios: React.FC = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Usuarios" lastPage="" />
+      <Breadcrumb pageName="Vendedores" lastPage="" />
       <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark flex items-center justify-between">
           <h3 className="font-medium text-black dark:text-white">
-            Lista de usuarios
+            Lista de vendedores
           </h3>
           <div className="ml-auto">
             <Link
-              to={`/${modulo}/usuarios/registrar`}
+              to={`/${modulo}/vendedores/registrar`}
               title="Registrar Usuario"
               className="flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90"
             >
-              <FaRegPlusSquare /> Usuario
+              <FaRegPlusSquare /> Vendedor
             </Link>
           </div>
         </div>
@@ -79,7 +79,7 @@ const Usuarios: React.FC = () => {
                     {usuario.activo ? 'Activo' : 'Inactivo'}
                   </td>
                   <td>
-                    <Link to={"/admin/usuarios/" + usuario.id+"/editar"}>
+                    <Link to={"/admin/vendedores/" + usuario.id+"/editar"}>
                     <FaEdit className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer" />
                  
                     </Link>
@@ -94,4 +94,4 @@ const Usuarios: React.FC = () => {
   );
 };
 
-export default Usuarios;
+export default Vendedores;

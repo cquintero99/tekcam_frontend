@@ -9,6 +9,7 @@ import {
   AiFillDropboxSquare
 } from 'react-icons/ai';
 import Brand from '../../Global/Brand';
+import { useUserContext } from '../../Context/UserContext';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -28,9 +29,28 @@ const routesSidebar: RouteItem[] = [
     icon: AiOutlineDashboard,
     label: 'Dashboard',
   },
-  { to: '/admin/usuarios', icon: AiOutlineUser, label: 'Usuarios' },
+  { to: '/admin/vendedores', icon: AiOutlineUser, label: 'Vendedores' },
 
   { to: '/admin/inventario', icon: AiFillDropboxSquare, label: 'Inventario' },
+
+  // {
+  //   to: '/admin/ui',
+  //   icon: AiOutlineSetting,
+  //   label: 'UI Elements',
+  //   subRoutes: [
+  //     { to: '/admin/ui/alerts', icon: null, label: 'Alerts' },
+  //     { to: '/admin/ui/buttons', icon: null, label: 'Buttons' },
+  //   ],
+  // },
+];
+const routesSidebarVendedor: RouteItem[] = [
+  {
+    to: '/vendedor',
+    icon: AiOutlineDashboard,
+    label: 'Dashboard',
+  },
+
+  { to: '/vendedor/inventario', icon: AiFillDropboxSquare, label: 'Inventario' },
 
   // {
   //   to: '/admin/ui',
@@ -67,6 +87,7 @@ const IconLink = ({
 };
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  const {modulo}=useUserContext()
   const location = useLocation();
   const { pathname } = location;
 
@@ -111,6 +132,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
+  const routesFiltered = modulo==="vendedor"?routesSidebarVendedor:routesSidebar
+
   return (
     <aside
       ref={sidebar}
@@ -119,7 +142,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <Link to="/admin">
+        <Link to={"/"+modulo}>
           <Brand dark={true} />
         </Link>
 
@@ -154,7 +177,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
-              {routesSidebar.map((route) =>
+              {routesFiltered.map((route) =>
                 route.subRoutes ? (
                   <SidebarLinkGroup
                     key={route.to}

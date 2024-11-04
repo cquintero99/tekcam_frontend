@@ -23,7 +23,9 @@ const SignIn = () => {
         if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
             const token = authorizationHeader.replace('Bearer ', ''); // Elimina el prefijo "Bearer "
             localStorage.setItem('token', token);
-            navigate('/admin');
+            const rol = parseToken(token);
+            console.log(rol)
+            navigate('/'+rol);
         } else {
             setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
         }
@@ -33,6 +35,17 @@ const SignIn = () => {
     }
 };
 
+const parseToken = (token: string) => {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+
+    
+
+    return payload?.rol?.nombre?.toLowerCase();
+  } catch (error) {
+    console.error('Failed to parse token:', error);
+  }
+};
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
