@@ -10,6 +10,7 @@ import InformacionProducto from '../pages/Inventario/informacion/InformacionProd
 import Profile from '../pages/Profile';
 import Usuarios from '../pages/Usuarios/Usuarios';
 import RegistrarUsuario from '../pages/Usuarios/registrar/RegistrarUsuario';
+import EditarUsuario from '../pages/Usuarios/editar/EditarUsuario';
 
 const routes: RouteObject[] = [
   {
@@ -66,7 +67,8 @@ const routes: RouteObject[] = [
         <Usuarios />
       </>
     ),
-  },  {
+  },
+  {
     path: '/admin/usuarios/registrar',
     element: (
       <>
@@ -75,7 +77,16 @@ const routes: RouteObject[] = [
       </>
     ),
   },
-  
+  {
+    path: '/admin/usuarios/:id/editar',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <EditarUsuario />
+      </>
+    ),
+  },
+
   {
     path: '/admin/perfil',
     element: (
@@ -85,7 +96,6 @@ const routes: RouteObject[] = [
       </>
     ),
   },
-
 ];
 
 export default routes;

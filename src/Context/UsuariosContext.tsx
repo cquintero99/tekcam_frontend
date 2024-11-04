@@ -65,7 +65,6 @@ export const UsuariosProvider: React.FC<{ children: ReactNode }> = ({
       const usuariosResponse = await axios.get(`${BASE_URL}usuario/all`, {
         headers,
       });
-      console.log(usuariosResponse);
       setUsuarios(usuariosResponse.data.data);
     } catch (error) {
       console.error('Error fetching data:', error);

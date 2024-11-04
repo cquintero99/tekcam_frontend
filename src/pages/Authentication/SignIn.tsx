@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Brand from '../../Global/Brand';
-import Projects from '../../Global/Projects';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -18,6 +17,7 @@ const SignIn = () => {
             email,
             password,
         });
+        console.log(response)
         const authorizationHeader = response.headers['authorization']; // Suponiendo que el token se envía en el encabezado "Authorization"
 
         if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {

@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 
 import { Link } from 'react-router-dom';
 
-import { FaRegPlusSquare } from 'react-icons/fa';
+import { FaEdit, FaRegPlusSquare } from 'react-icons/fa';
 import { useUserContext } from '../../Context/UserContext';
 import { useUsuariosContext } from '../../Context/UsuariosContext';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-
-
 
 const Usuarios: React.FC = () => {
   const { modulo } = useUserContext();
@@ -51,11 +49,20 @@ const Usuarios: React.FC = () => {
                 <th className="py-4 px-4 font-medium text-black dark:text-white">
                   Cedula
                 </th>
+                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                  Estado
+                </th>
+                <th className="py-4 px-4 font-medium text-black dark:text-white">
+                  Editar
+                </th>
               </tr>
             </thead>
             <tbody>
               {usuarios?.map((usuario) => (
-                <tr key={usuario.id} className="border-b border-stroke dark:border-strokedark">
+                <tr
+                  key={usuario.id}
+                  className="border-b border-stroke dark:border-strokedark"
+                >
                   <td className="py-4 px-4 text-black dark:text-white xl:pl-11">
                     {usuario.nombre}
                   </td>
@@ -67,6 +74,15 @@ const Usuarios: React.FC = () => {
                   </td>
                   <td className="py-4 px-4 text-black dark:text-white">
                     {usuario.cedula}
+                  </td>
+                  <td className="py-4 px-4 text-black dark:text-white">
+                    {usuario.activo ? 'Activo' : 'Inactivo'}
+                  </td>
+                  <td>
+                    <Link to={"/admin/usuarios/" + usuario.id+"/editar"}>
+                    <FaEdit className="w-5 h-5 text-orange-500 hover:text-orange-700  cursor-pointer" />
+                 
+                    </Link>
                   </td>
                 </tr>
               ))}
