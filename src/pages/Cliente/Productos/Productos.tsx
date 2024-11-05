@@ -1,24 +1,47 @@
-import React, { useState, useMemo, useCallback } from "react";
-import { useClienteContext } from "../../../Context/ClienteContext";
-import { motion } from "framer-motion";
-import { Carousel } from "react-responsive-carousel";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import SidebarLinkGroup from "../../../components/Sidebar/SidebarLinkGroup";
+import React, { useState, useMemo, useCallback } from 'react';
+import { useClienteContext } from '../../../Context/ClienteContext';
+
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
+import SidebarLinkGroup from '../../../components/Sidebar/SidebarLinkGroup';
+import ProductList from './CardProductos/CardProductos';
+
+function formatCurrency(value: number | 0) {
+  if (typeof value !== 'number') {
+    return '';
+  }
+
+  return new Intl.NumberFormat('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value);
+}
 
 const Productos: React.FC = () => {
   const { productos, categorias, marcas } = useClienteContext();
 
   // Estados para los filtros
-  const [selectedCategoria, setSelectedCategoria] = useState<number | null>(null);
-  const [selectedSubCategoria, setSelectedSubCategoria] = useState<number | null>(null);
+  const [selectedCategoria, setSelectedCategoria] = useState<number | null>(
+    null,
+  );
+  const [selectedSubCategoria, setSelectedSubCategoria] = useState<
+    number | null
+  >(null);
   const [selectedMarca, setSelectedMarca] = useState<number | null>(null);
 
   // Productos filtrados usando useMemo para evitar cálculos innecesarios
   const filteredProductos = useMemo(() => {
     return productos?.filter((producto) => {
-      const matchCategoria = selectedCategoria ? producto.subCategoria.categoria.id === selectedCategoria : true;
-      const matchSubCategoria = selectedSubCategoria ? producto.subCategoria.id === selectedSubCategoria : true;
-      const matchMarca = selectedMarca ? producto.marca.id === selectedMarca : true;
+      const matchCategoria = selectedCategoria
+        ? producto.subCategoria.categoria.id === selectedCategoria
+        : true;
+      const matchSubCategoria = selectedSubCategoria
+        ? producto.subCategoria.id === selectedSubCategoria
+        : true;
+      const matchMarca = selectedMarca
+        ? producto.marca.id === selectedMarca
+        : true;
       return matchCategoria && matchSubCategoria && matchMarca;
     });
   }, [productos, selectedCategoria, selectedSubCategoria, selectedMarca]);
@@ -29,9 +52,12 @@ const Productos: React.FC = () => {
     setSelectedSubCategoria(null); // Reiniciar subcategoría al cambiar categoría
   }, []);
 
-  const handleSubCategoriaChange = useCallback((subCategoriaId: number | null) => {
-    setSelectedSubCategoria(subCategoriaId);
-  }, []);
+  const handleSubCategoriaChange = useCallback(
+    (subCategoriaId: number | null) => {
+      setSelectedSubCategoria(subCategoriaId);
+    },
+    [],
+  );
 
   const handleMarcaChange = useCallback((marcaId: number | null) => {
     setSelectedMarca(marcaId);
@@ -47,8 +73,8 @@ const Productos: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row">
         {/* Filtros (25% del ancho) */}
-        <div className="w-full md:w-1/4 mr-3">
-          <div className="space-y-6 bg-white p-4 rounded-lg shadow-md">
+        <div className="w-full md:w-1/4 mr-3 ">
+          <div className="space-y-6 bg-white p-4 rounded-lg shadow-md  dark:bg-slate-900 dark:border-t dark:border">
             {/* Filtro de Categoría */}
             <SidebarLinkGroup activeCondition={false}>
               {(handleClick, open) => (
@@ -57,9 +83,13 @@ const Productos: React.FC = () => {
                     onClick={handleClick}
                     className="flex items-center justify-between cursor-pointer py-2 border-b border-gray-200"
                   >
-                    <span className="font-semibold text-gray-800">Categoría</span>
+                    <span className="font-semibold text-gray-800">
+                      Categoría
+                    </span>
                     <svg
-                      className={`transform transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                      className={`transform transition-transform duration-200 ${
+                        open ? 'rotate-180' : ''
+                      }`}
                       width="20"
                       height="20"
                       viewBox="0 0 20 20"
@@ -72,18 +102,25 @@ const Productos: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className={`${!open && "hidden"} mt-2`}>
+                  <div className={`${!open && 'hidden'} mt-2`}>
                     <ul className="space-y-2 pl-0 list-none">
-                      <li className="cursor-pointer text-gray-700 hover:text-indigo-600" onClick={() => handleCategoriaChange(null)}>
+                      <li
+                        className="cursor-pointer text-gray-700 hover:text-blue-600"
+                        onClick={() => handleCategoriaChange(null)}
+                      >
                         Todas las categorías
                       </li>
                       {categorias?.map((categoria) => (
                         <li
                           key={categoria.id}
-                          className={`cursor-pointer text-gray-700 hover:text-indigo-600 ${
-                            selectedCategoria === categoria.id ? "text-indigo-600 font-semibold" : ""
+                          className={`cursor-pointer text-gray-700 hover:text-blue-600 ${
+                            selectedCategoria === categoria.id
+                              ? 'text-blue-600 font-semibold'
+                              : ''
                           }`}
-                          onClick={() => handleCategoriaChange(categoria.id ?? null)}
+                          onClick={() =>
+                            handleCategoriaChange(categoria.id ?? null)
+                          }
                         >
                           {categoria.nombre}
                         </li>
@@ -103,9 +140,13 @@ const Productos: React.FC = () => {
                       onClick={handleClick}
                       className="flex items-center justify-between cursor-pointer py-2 border-b border-gray-200"
                     >
-                      <span className="font-semibold text-gray-800">Subcategoría</span>
+                      <span className="font-semibold text-gray-800">
+                        Subcategoría
+                      </span>
                       <svg
-                        className={`transform transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                        className={`transform transition-transform duration-200 ${
+                          open ? 'rotate-180' : ''
+                        }`}
                         width="20"
                         height="20"
                         viewBox="0 0 20 20"
@@ -118,9 +159,12 @@ const Productos: React.FC = () => {
                         />
                       </svg>
                     </div>
-                    <div className={`${!open && "hidden"} mt-2`}>
+                    <div className={`${!open && 'hidden'} mt-2`}>
                       <ul className="space-y-2 pl-0 list-none">
-                        <li className="cursor-pointer text-gray-700 hover:text-indigo-600" onClick={() => handleSubCategoriaChange(null)}>
+                        <li
+                          className="cursor-pointer text-gray-700 hover:text-blue-600"
+                          onClick={() => handleSubCategoriaChange(null)}
+                        >
                           Todas las subcategorías
                         </li>
                         {categorias
@@ -128,10 +172,14 @@ const Productos: React.FC = () => {
                           ?.subCategorias?.map((subCat) => (
                             <li
                               key={subCat.id}
-                              className={`cursor-pointer text-gray-700 hover:text-indigo-600 ${
-                                selectedSubCategoria === subCat.id ? "text-indigo-600 font-semibold" : ""
+                              className={`cursor-pointer text-gray-700 hover:text-blue-600 ${
+                                selectedSubCategoria === subCat.id
+                                  ? 'text-blue-600 font-semibold'
+                                  : ''
                               }`}
-                              onClick={() => handleSubCategoriaChange(subCat.id ?? null)}
+                              onClick={() =>
+                                handleSubCategoriaChange(subCat.id ?? null)
+                              }
                             >
                               {subCat.nombre}
                             </li>
@@ -153,7 +201,9 @@ const Productos: React.FC = () => {
                   >
                     <span className="font-semibold text-gray-800">Marca</span>
                     <svg
-                      className={`transform transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+                      className={`transform transition-transform duration-200 ${
+                        open ? 'rotate-180' : ''
+                      }`}
                       width="20"
                       height="20"
                       viewBox="0 0 20 20"
@@ -166,16 +216,21 @@ const Productos: React.FC = () => {
                       />
                     </svg>
                   </div>
-                  <div className={`${!open && "hidden"} mt-2`}>
+                  <div className={`${!open && 'hidden'} mt-2`}>
                     <ul className="space-y-2 pl-0 list-none">
-                      <li className="cursor-pointer text-gray-700 hover:text-indigo-600" onClick={() => handleMarcaChange(null)}>
+                      <li
+                        className="cursor-pointer text-gray-700 hover:text-blue-600"
+                        onClick={() => handleMarcaChange(null)}
+                      >
                         Todas las marcas
                       </li>
                       {marcas?.map((marca) => (
                         <li
                           key={marca.id}
-                          className={`cursor-pointer text-gray-700 hover:text-indigo-600 ${
-                            selectedMarca === marca.id ? "text-indigo-600 font-semibold" : ""
+                          className={`cursor-pointer text-gray-700 hover:text-blue-600 ${
+                            selectedMarca === marca.id
+                              ? 'text-blue-600 font-semibold'
+                              : ''
                           }`}
                           onClick={() => handleMarcaChange(marca.id ?? null)}
                         >
@@ -191,7 +246,7 @@ const Productos: React.FC = () => {
             {/* Botón para limpiar filtros */}
             <button
               onClick={handleLimpiarFiltros}
-              className="mt-4 w-full rounded bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
+              className="mt-4 w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
             >
               Limpiar Filtros
             </button>
@@ -199,46 +254,7 @@ const Productos: React.FC = () => {
         </div>
         {/* Productos (75% del ancho) */}
         <div className="w-full md:w-3/4">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-            {filteredProductos?.map((producto, index) => (
-              <motion.div
-                key={producto.id}
-                className="relative overflow-hidden rounded-lg shadow-lg"
-                whileHover={{ scale: 1.02 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-              >
-                {producto.imagenes?.length > 0 ? (
-                  <Carousel showThumbs={false} autoPlay infiniteLoop className="rounded-lg">
-                    {producto.imagenes.map((imagen, idx) => (
-                      <div key={idx}>
-                        <img
-                          src={imagen.imagen}
-                          alt={`${producto.nombre} - ${idx + 1}`}
-                          className="w-full h-auto object-cover"
-                        />
-                      </div>
-                    ))}
-                  </Carousel>
-                ) : (
-                  <img
-                    src="/placeholder.jpg"
-                    alt={producto.nombre}
-                    className="w-full h-auto object-cover rounded-lg"
-                  />
-                )}
-                <div className="p-4">
-                  <h3 className="mb-2 text-lg font-semibold">{producto.nombre}</h3>
-                  <p className="mb-2 text-gray-600">{producto.marca.nombre}</p>
-                  <p className="mb-2 text-gray-800">${producto.precioVenta}</p>
-                  <button className="mt-2 w-full rounded bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">
-                    Ver Producto
-                  </button>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          <ProductList filteredProductos={filteredProductos || []} formatCurrency={formatCurrency} />
         </div>
       </div>
     </div>

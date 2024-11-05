@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { FaShoppingBag } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import useColorMode from '../../hooks/useColorMode';
+import { MdDarkMode, MdLightMode } from 'react-icons/md';
 
 const NavbarCliente = () => {
   const [state, setState] = useState(false);
@@ -8,16 +10,24 @@ const NavbarCliente = () => {
   // Replace javascript:void(0) path with your path
   const navigation = [
     { title: 'Inicio', path: '/' },
-    { title: 'Categorías', path: '/cliente#categorias' },
+    // { title: 'Categorías', path: '/cliente#categorias' },
     { title: 'Productos', path: '/cliente/productos' },
     { title: 'Login', path: '/cliente/login' },
   ];
-
+  const [colorMode, setColorMode] = useColorMode();
   return (
-    <nav className="bg-white w-full border-b md:border-0 md:static">
+    <nav className="bg-white w-full border-b md:border-0   md:static  dark:bg-slate-900 dark:border-t dark:border-b">
       <div className="items-center px-4 max-w-screen-xl mx-auto md:flex md:px-8">
         <div className="flex items-center justify-between py-3 md:py-5 md:block">
-          <strong className="font-bold text-blue-900 text-2xl">TEKCAM</strong>
+          <div className="flex items-center gap-2">
+            <img
+              src="/src/images/logo/tekcam.png"
+              width={30}
+              height={50}
+              alt="Tekcam Logo"
+            />
+            <strong className="font-bold text-blue-900 text-2xl">TEKCAM</strong>
+          </div>
           <div className="md:hidden">
             <button
               className="text-gray-700 outline-none p-2 rounded-md focus:border-gray-400 focus:border"
@@ -63,7 +73,10 @@ const NavbarCliente = () => {
           <ul className="justify-center items-center space-y-8 md:flex md:space-x-6 md:space-y-0">
             {navigation.map((item, idx) => {
               return (
-                <li key={idx} className="text-dark  hover:text-indigo-900 font-medium hover:underline">
+                <li
+                  key={idx}
+                  className="text-dark  hover:text-indigo-900 font-medium hover:underline"
+                >
                   <Link to={item.path}>{item.title}</Link>
                 </li>
               );
@@ -71,12 +84,23 @@ const NavbarCliente = () => {
           </ul>
         </div>
         <div className="hidden md:inline-block">
-          <button
-            className="bg-slate-900 text-white rounded-md shadow py-3 px-4 hover:bg-blue-700"
-            title="Carrito"
-          >
-            <FaShoppingBag />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              className="bg-slate-900 text-white rounded-md shadow py-3 px-4 hover:bg-blue-700"
+              title="Carrito"
+            >
+              <FaShoppingBag />
+            </button>
+            <div
+              onClick={() => {
+                if (typeof setColorMode === 'function') {
+                  setColorMode(colorMode === 'light' ? 'dark' : 'light');
+                }
+              }}
+            >
+              {colorMode === 'dark' ? <MdLightMode /> : <MdDarkMode />}
+            </div>
+          </div>
         </div>
       </div>
     </nav>

@@ -1,20 +1,21 @@
 const FooterCliente = () => {
     const footerNavs = [
-        { href: 'javascript:void()', name: 'About' },
-        { href: 'javascript:void()', name: 'Blog' },
-        { href: 'javascript:void()', name: 'Team' },
-        { href: 'javascript:void()', name: 'Careers' },
-        { href: 'javascript:void()', name: 'Support' },
+        { href: 'javascript:void()', name: 'Quienes somos' },
+        { href: 'javascript:void()', name: 'Envios' },
+        { href: 'javascript:void()', name: 'Equipo' },
+        { href: 'javascript:void()', name: 'Contacto' },
+        { href: 'javascript:void()', name: 'Soporte' },
     ];
 
     return (
-        <footer className="bg-slate-900 text-white w-full">
+        <footer className="bg-slate-900 text-white w-full dark:border-t">
             <div className="container mx-auto px-4 py-8">
                 <div className="text-center mb-4">
-                    <img src="https://www.floatui.com/logo.svg" className="w-32 mx-auto" />
-                    <p className="leading-relaxed mt-2 text-[15px]">
+                    <img src="/src/images/logo/tekcam.png" alt="Logo" className="w-16 h-16 mx-auto" />
+                    <strong>TEKCAM</strong>
+                    {/* <p className="leading-relaxed mt-2 text-[15px]">
                         Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-                    </p>
+                    </p> */}
                 </div>
                 <ul className="flex flex-wrap justify-center mt-8 space-x-4">
                     {footerNavs.map((item, idx) => (

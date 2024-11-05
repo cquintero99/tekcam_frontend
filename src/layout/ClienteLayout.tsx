@@ -6,7 +6,7 @@ import { ClienteProvider } from '../Context/ClienteContext';
 
 const ClienteLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <main>
+    <main className="dark:bg-slate-900 dark:text-bodydark">
         <ClienteProvider>
       <BannerCliente />
       <NavbarCliente/>

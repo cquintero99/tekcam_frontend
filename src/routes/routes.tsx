@@ -15,13 +15,14 @@ import Perfil from '../pages/Perfil';
 import Inicio from '../pages/Cliente/Inicio';
 import SignIn from '../pages/Authentication/SignIn';
 import Productos from '../pages/Cliente/Productos/Productos';
+import InfoProductoCliente from '../pages/Cliente/Productos/informacion/InfoProductoCliente';
 
 const routes: RouteObject[] = [
   {
     path: '/admin/',
     element: (
       <>
-        <PageTitle title="eCommerce Dashboard | IT Solutions NYC" />
+        <PageTitle title="TEKCAM eCommerce Dashboard " />
         <ECommerce />
       </>
     ),
@@ -104,7 +105,7 @@ const routes: RouteObject[] = [
     path: '/vendedor/',
     element: (
       <>
-        <PageTitle title="eCommerce Dashboard | IT Solutions NYC" />
+        <PageTitle title="eCommerce Dashboard " />
         <ECommerce />
       </>
     ),
@@ -181,6 +182,15 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="TEKCAM Login " />
         <Productos />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/producto/:id/informacion',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Login " />
+        <InfoProductoCliente />
       </>
     ),
   },

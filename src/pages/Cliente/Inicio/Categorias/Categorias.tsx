@@ -1,13 +1,14 @@
 import React from "react";
 import { useClienteContext } from "../../../../Context/ClienteContext";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Categorias: React.FC = () => {
   const { categorias } = useClienteContext();
 
   return (
-    <div className="container mx-auto px-4 py-8" id="categorias">
-      <h2 className="mb-8 text-center text-3xl font-bold uppercase text-black">Categorías</h2>
+    <div className="container mx-auto px-4 py-12" id="categorias">
+      <h2 className="mb-8 text-center text-3xl font-bold uppercase dark:text-white">Categorías</h2>
       <div className="flex justify-center">
         <div className="grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 mx-auto">
           {categorias?.map((categoria, index) => (
@@ -19,7 +20,8 @@ const Categorias: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <img
+             <Link to={`/cliente/productos/?${categoria.nombre}`}>
+             <img
                 src={categoria.imagen}
                 alt={categoria.nombre}
                 className="h-48 w-full object-cover"
@@ -29,6 +31,7 @@ const Categorias: React.FC = () => {
                   {categoria.nombre}
                 </h3>
               </div>
+             </Link>
             </motion.div>
           ))}
         </div>

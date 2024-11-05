@@ -2,57 +2,79 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Brand from '../../Global/Brand';
+import { useClienteContext } from '../../Context/ClienteContext';
+import { Carousel } from 'react-responsive-carousel';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const { categorias } = useClienteContext();
   const navigate = useNavigate();
 
-  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => { 
+  const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-        const response = await axios.post('http://localhost:8080/login', {
-            email,
-            password,
-        });
-        console.log(response)
-        const authorizationHeader = response.headers['authorization']; // Suponiendo que el token se envía en el encabezado "Authorization"
+      const response = await axios.post('http://localhost:8080/login', {
+        email,
+        password,
+      });
+      console.log(response);
+      const authorizationHeader = response.headers['authorization']; // Suponiendo que el token se envía en el encabezado "Authorization"
 
-        if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
-            const token = authorizationHeader.replace('Bearer ', ''); // Elimina el prefijo "Bearer "
-            localStorage.setItem('token', token);
-            const rol = parseToken(token);
-            console.log(rol)
-            navigate('/'+rol);
-        } else {
-            setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
-        }
+      if (authorizationHeader && authorizationHeader.startsWith('Bearer ')) {
+        const token = authorizationHeader.replace('Bearer ', ''); // Elimina el prefijo "Bearer "
+        localStorage.setItem('token', token);
+        const rol = parseToken(token);
+        console.log(rol);
+        navigate('/' + rol);
+      } else {
+        setError('Error al iniciar sesión. Por favor, inténtelo de nuevo.');
+      }
     } catch (err) {
-        console.error(err);
-        setError('Email o contraseña incorrecta. Por favor, inténtelo de nuevo.');
+      console.error(err);
+      setError('Email o contraseña incorrecta. Por favor, inténtelo de nuevo.');
     }
-};
+  };
 
-const parseToken = (token: string) => {
-  try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
+  const parseToken = (token: string) => {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
 
-    
-
-    return payload?.rol?.nombre?.toLowerCase();
-  } catch (error) {
-    console.error('Failed to parse token:', error);
-  }
-};
+      return payload?.rol?.nombre?.toLowerCase();
+    } catch (error) {
+      console.error('Failed to parse token:', error);
+    }
+  };
 
   return (
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex flex-wrap items-center">
         <div className="hidden w-full xl:block xl:w-1/2">
           <div className="py-17.5 px-26 text-center">
-            <Brand dark={false} />
+            <Carousel
+              autoPlay
+              showThumbs={false}
+              infiniteLoop
+              className="rounded-lg"
+            >
+              {categorias?.map((categoria: any, idx: number) => (
+                <div key={idx}>
+                   <h3 className="text-center text-xl font-bold dark:text-white underline">
+                    {categoria.nombre}
+                  </h3>
+                  <img
+                    src={categoria.imagen}
+                    alt={`${categoria.nombre} - ${idx + 1}`}
+                    width={300}
+                    height={300}
+                    className="object-cover w-full h-full"
+                  />
+                 
+                </div>
+              ))}
+            </Carousel>
           </div>
         </div>
 
