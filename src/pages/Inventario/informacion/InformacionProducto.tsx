@@ -23,7 +23,7 @@ const InformacionProducto = () => {
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="md:w-1/2">
                         {producto.imagenes?.length > 0 && (
-                            <Carousel showThumbs={false} autoPlay infiniteLoop className="rounded-lg ">
+                            <Carousel  autoPlay infiniteLoop className="rounded-lg ">
                                 {producto.imagenes.map((imagen, idx) => (
                                     <div key={idx}>
                                         <img

@@ -42,7 +42,6 @@ const InfoProductoCliente = () => {
           <motion.div className="md:w-1/2" whileHover={{ scale: 1.05 }}>
             {producto.imagenes?.length > 0 && (
               <Carousel
-                showThumbs={false}
                 autoPlay
                 infiniteLoop
                 className="rounded-lg "

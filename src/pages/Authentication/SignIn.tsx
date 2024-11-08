@@ -55,7 +55,7 @@ const SignIn = () => {
           <div className="py-17.5 px-26 text-center">
             <Carousel
               autoPlay
-              showThumbs={false}
+             
               infiniteLoop
               className="rounded-lg"
             >
