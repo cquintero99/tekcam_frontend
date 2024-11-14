@@ -11,11 +11,12 @@ import { ProductoImagen } from '../../../types/productoImagen';
 import EditarProductoImagen from './EditarProdcutoImagen';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 
 const EditarProducto = () => {
   const { productos, categorias, marcas, catalogos, fetchProductos } =
     useProductoContext();
+    const token = localStorage.getItem('token');
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 

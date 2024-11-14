@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useProductoContext } from '../../../Context/ProductoContext';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 
 const EditarProductoImagen = ({
   modalOpen,
@@ -17,6 +17,7 @@ const EditarProductoImagen = ({
   setModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   productoImagen: ProductoImagen;
 }) => {
+  const token = localStorage.getItem('token');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
     const navigate = useNavigate();
   const { fetchProductos } = useProductoContext();

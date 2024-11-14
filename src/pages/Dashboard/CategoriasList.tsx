@@ -11,9 +11,10 @@ import Loader from '../../common/Loader';
 import { useUserContext } from '../../Context/UserContext';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 
 const CategoriasList = () => {
+  const token = localStorage.getItem('token');
   const {
     categorias,
     marcas,
@@ -58,7 +59,7 @@ const CategoriasList = () => {
       const headers = {
         Authorization: `Bearer ${token}`,
       };
-
+      console.log(token);
       const formData = new FormData();
       formData.append(
         'categoria',

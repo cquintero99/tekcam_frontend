@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Rol } from '../../../types/Rol';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 
 type FormData = {
   nombre: string;
@@ -20,6 +20,7 @@ type FormData = {
 };
 
 const RegistrarVendedor: React.FC = () => {
+  const token = localStorage.getItem('token');
   const { roles, fetchUsuarios } = useUsuariosContext();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);

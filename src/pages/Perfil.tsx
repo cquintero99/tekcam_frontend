@@ -8,7 +8,7 @@ import axios from 'axios';
 import Loader from '../common/Loader';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 type FormData = {
   id: number;
   nombre: string;
@@ -20,8 +20,8 @@ type FormData = {
   activo: boolean;
 };
 const Perfil = () => {
+  const token = localStorage.getItem('token');
   const { usuario, fetchInformacionUsuario } = useUserContext();
-  const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormData>({

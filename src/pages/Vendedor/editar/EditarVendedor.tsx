@@ -9,7 +9,7 @@ import { Rol } from '../../../types/Rol';
 import { useUserContext } from '../../../Context/UserContext';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
+
 
 type FormData = {
   id: number;
@@ -23,6 +23,7 @@ type FormData = {
 };
 
 const EditarVendedor: React.FC = () => {
+  const token = localStorage.getItem('token');
   const { id } = useParams<{ id: string }>();
   const {modulo}=useUserContext();
   const { roles, usuarios, fetchUsuarios } = useUsuariosContext();

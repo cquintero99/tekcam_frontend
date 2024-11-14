@@ -7,9 +7,9 @@ import { useNavigate } from 'react-router-dom';
 import Loader from '../../../common/Loader';
 
 const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
-const token = localStorage.getItem('token');
 
 const RegistrarProducto = () => {
+  const token = localStorage.getItem('token');
   const { categorias, marcas, catalogos, fetchProductos } =
     useProductoContext();
   const [nombre, setNombre] = useState('');
@@ -104,7 +104,7 @@ const RegistrarProducto = () => {
       console.log('Producto guardado:', response.data);
     } catch (error) {
       console.error('Error al guardar el producto:', error);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -112,9 +112,7 @@ const RegistrarProducto = () => {
   return (
     <>
       <Breadcrumb pageName="Registrar producto" lastPage="inventario" />
-    {loading && 
-    <Loader />
-    }
+      {loading && <Loader />}
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-9">
           {/* <!-- Registrar Producto Form --> */}
