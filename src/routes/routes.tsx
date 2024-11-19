@@ -3,19 +3,20 @@ import PageTitle from '../components/PageTitle';
 
 import ECommerce from '../pages/Dashboard/ECommerce';
 
-import Inventario from '../pages/Inventario/Inventario';
-import RegistrarProducto from '../pages/Inventario/registrar/RegistrarProducto';
-import EditarProducto from '../pages/Inventario/editar/EditarProducto';
-import InformacionProducto from '../pages/Inventario/informacion/InformacionProducto';
+import Inventario from '../pages/stock/Stock';
+import RegistrarProducto from '../pages/stock/registrar/RegistrarProducto';
+import EditarProducto from '../pages/stock/editar/EditarProducto';
+import InformacionProducto from '../pages/stock/informacion/InformacionProducto';
 
 import Vendedores from '../pages/Vendedor/Vendedores';
 import RegistrarVendedor from '../pages/Vendedor/registrar/RegistrarVendedor';
 import EditarVendedor from '../pages/Vendedor/editar/EditarVendedor';
 import Perfil from '../pages/Perfil';
 import Inicio from '../pages/Cliente/Inicio';
-import SignIn from '../pages/Authentication/SignIn';
+import Login from '../pages/Authentication/Login';
 import Productos from '../pages/Cliente/Productos/Productos';
 import InfoProductoCliente from '../pages/Cliente/Productos/informacion/InfoProductoCliente';
+import ResetPassword from '../pages/Authentication/ResetPassword';
 
 const routes: RouteObject[] = [
   {
@@ -29,37 +30,37 @@ const routes: RouteObject[] = [
   },
 
   {
-    path: '/admin/inventario',
+    path: '/admin/stock',
     element: (
       <>
-        <PageTitle title="Inventario " />
+        <PageTitle title="Stock " />
         <Inventario />
       </>
     ),
   },
   {
-    path: '/admin/inventario/registrar',
+    path: '/admin/stock/registrar',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <RegistrarProducto />
       </>
     ),
   },
   {
-    path: '/admin/inventario/:id/editar',
+    path: '/admin/stock/:id/editar',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <EditarProducto />
       </>
     ),
   },
   {
-    path: '/admin/inventario/:id/informacion',
+    path: '/admin/stock/:id/informacion',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <InformacionProducto />
       </>
     ),
@@ -112,37 +113,37 @@ const routes: RouteObject[] = [
   },
 
   {
-    path: '/vendedor/inventario',
+    path: '/vendedor/stock',
     element: (
       <>
-        <PageTitle title="Inventario " />
+        <PageTitle title="Stock " />
         <Inventario />
       </>
     ),
   },
   {
-    path: '/vendedor/inventario/registrar',
+    path: '/vendedor/stock/registrar',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <RegistrarProducto />
       </>
     ),
   },
   {
-    path: '/vendedor/inventario/:id/editar',
+    path: '/vendedor/stock/:id/editar',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <EditarProducto />
       </>
     ),
   },
   {
-    path: '/vendedor/inventario/:id/informacion',
+    path: '/vendedor/stock/:id/informacion',
     element: (
       <>
-        <PageTitle title="Inventario Registrar Producto" />
+        <PageTitle title="Stock Registrar Producto" />
         <InformacionProducto />
       </>
     ),
@@ -172,7 +173,16 @@ const routes: RouteObject[] = [
     element: (
       <>
         <PageTitle title="TEKCAM Login " />
-        <SignIn />
+        <Login />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/reset-password',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Login " />
+        <ResetPassword />
       </>
     ),
   },

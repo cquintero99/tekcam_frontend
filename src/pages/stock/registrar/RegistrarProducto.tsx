@@ -111,7 +111,7 @@ const RegistrarProducto = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Registrar producto" lastPage="inventario" />
+      <Breadcrumb pageName="Registrar producto" lastPage="stock" />
       {loading && <Loader />}
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-9">

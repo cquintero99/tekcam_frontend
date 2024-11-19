@@ -18,7 +18,7 @@ const InformacionProducto = () => {
 
     return (
         <>
-            <Breadcrumb pageName="Información producto" lastPage="inventario" />
+            <Breadcrumb pageName="Información producto" lastPage="stock" />
             <div className="max-w-7xl mx-auto p-8">
                 <div className="flex flex-col md:flex-row gap-8">
                     <div className="md:w-1/2">

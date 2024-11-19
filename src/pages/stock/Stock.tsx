@@ -4,11 +4,11 @@ import { BsFillBagPlusFill } from 'react-icons/bs';
 import { Link } from 'react-router-dom';
 import { useUserContext } from '../../Context/UserContext';
 import CardProducto from './producto/CardProducto';
-const Inventario: React.FC = () => {
+const Stock: React.FC = () => {
   const { modulo } = useUserContext();
   return (
     <>
-      <Breadcrumb pageName="Inventario" lastPage='' />
+      <Breadcrumb pageName="Stock" lastPage='' />
       <div className="grid grid-cols-1 gap-9">
         <div className="flex flex-col gap-9">
           {/* <!-- Input Fields --> */}
@@ -21,7 +21,7 @@ const Inventario: React.FC = () => {
               <div className="ml-auto">
                 <Link
                 title='Registrar Producto'
-                  to={`/${modulo}/inventario/registrar`}
+                  to={`/${modulo}/stock/registrar`}
                   className=" flex items-center justify-between gap-2 bg-primary text-white rounded-lg px-4 py-2 font-medium transition hover:bg-opacity-90"
                 >
                   <BsFillBagPlusFill /> Producto
@@ -39,4 +39,4 @@ const Inventario: React.FC = () => {
   );
 };
 
-export default Inventario;
+export default Stock;

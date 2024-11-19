@@ -143,7 +143,7 @@ const EditarProducto = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Editar producto" lastPage="inventario" />
+      <Breadcrumb pageName="Editar producto" lastPage="stock" />
       {loading && <Loader />}
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-[2fr_1fr]">
         <div className="flex flex-col gap-9">

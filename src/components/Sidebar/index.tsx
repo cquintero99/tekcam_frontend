@@ -31,7 +31,7 @@ const routesSidebar: RouteItem[] = [
   },
   { to: '/admin/vendedores', icon: AiOutlineUser, label: 'Vendedores' },
 
-  { to: '/admin/inventario', icon: AiFillDropboxSquare, label: 'Inventario' },
+  { to: '/admin/stock', icon: AiFillDropboxSquare, label: 'Stock' },
 
   // {
   //   to: '/admin/ui',
@@ -50,7 +50,7 @@ const routesSidebarVendedor: RouteItem[] = [
     label: 'Dashboard',
   },
 
-  { to: '/vendedor/inventario', icon: AiFillDropboxSquare, label: 'Inventario' },
+  { to: '/vendedor/stock', icon: AiFillDropboxSquare, label: 'Stock' },
 
   // {
   //   to: '/admin/ui',

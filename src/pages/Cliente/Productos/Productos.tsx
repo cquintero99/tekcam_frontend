@@ -4,6 +4,7 @@ import { useClienteContext } from '../../../Context/ClienteContext';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import SidebarLinkGroup from '../../../components/Sidebar/SidebarLinkGroup';
 import ProductList from './CardProductos/CardProductos';
+import SelectGroupOne from '../../../components/Forms/SelectGroup/SelectGroupOne';
 
 function formatCurrency(value: number | 0) {
   if (typeof value !== 'number') {
@@ -30,9 +31,12 @@ const Productos: React.FC = () => {
   >(null);
   const [selectedMarca, setSelectedMarca] = useState<number | null>(null);
 
-  // Productos filtrados usando useMemo para evitar cálculos innecesarios
+  const [searchText, setSearchText] = useState('');
+  const [sortOrder, setSortOrder] = useState<string>('');
+
+  // Productos filtrados
   const filteredProductos = useMemo(() => {
-    return productos?.filter((producto) => {
+    let filtered = productos?.filter((producto) => {
       const matchCategoria = selectedCategoria
         ? producto.subCategoria.categoria.id === selectedCategoria
         : true;
@@ -42,9 +46,28 @@ const Productos: React.FC = () => {
       const matchMarca = selectedMarca
         ? producto.marca.id === selectedMarca
         : true;
-      return matchCategoria && matchSubCategoria && matchMarca;
+      const matchSearch = searchText
+        ? producto.nombre.toLowerCase().includes(searchText.toLowerCase())
+        : true;
+      return matchCategoria && matchSubCategoria && matchMarca && matchSearch;
     });
-  }, [productos, selectedCategoria, selectedSubCategoria, selectedMarca]);
+
+    if (sortOrder === 'asc') {
+      filtered = filtered?.sort((a, b) => a.precioVenta - b.precioVenta);
+    } else if (sortOrder === 'desc') {
+      filtered = filtered?.sort((a, b) => b.precioVenta - a.precioVenta);
+    }
+
+    return filtered;
+  }, [
+    productos,
+    selectedCategoria,
+    selectedSubCategoria,
+    selectedMarca,
+    searchText,
+    sortOrder,
+  ]);
+
 
   // Funciones para actualizar los filtros
   const handleCategoriaChange = useCallback((categoriaId: number | null) => {
@@ -63,11 +86,22 @@ const Productos: React.FC = () => {
     setSelectedMarca(marcaId);
   }, []);
 
-  const handleLimpiarFiltros = useCallback(() => {
-    setSelectedCategoria(null);
-    setSelectedSubCategoria(null);
-    setSelectedMarca(null);
-  }, []);
+    // Actualización de filtros
+    const handleSearch = useCallback((text: string) => {
+      setSearchText(text);
+    }, []);
+  
+    const handleSort = useCallback((order: string) => {
+      setSortOrder(order);
+    }, []);
+  
+    const handleLimpiarFiltros = useCallback(() => {
+      setSelectedCategoria(null);
+      setSelectedSubCategoria(null);
+      setSelectedMarca(null);
+      setSearchText('');
+      setSortOrder('');
+    }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -246,15 +280,25 @@ const Productos: React.FC = () => {
             {/* Botón para limpiar filtros */}
             <button
               onClick={handleLimpiarFiltros}
-              className="mt-4 w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+              className="mt-4 w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-red-600"
             >
               Limpiar Filtros
             </button>
           </div>
         </div>
         {/* Productos (75% del ancho) */}
-        <div className="w-full md:w-3/4">
-          <ProductList filteredProductos={filteredProductos || []} formatCurrency={formatCurrency} />
+        <div className="w-full md:w-3/4 bg-white rounded-lg shadow-md">
+       
+        <SelectGroupOne
+            filteredProductos={filteredProductos || []}
+            onSearch={handleSearch}
+            onSort={handleSort}
+            onClearFilters={handleLimpiarFiltros}
+          />
+          <ProductList
+            filteredProductos={filteredProductos || []}
+            formatCurrency={formatCurrency}
+          />
         </div>
       </div>
     </div>

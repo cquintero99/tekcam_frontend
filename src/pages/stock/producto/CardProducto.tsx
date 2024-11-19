@@ -91,23 +91,23 @@ const CardProducto = () => {
         </select>
       </div>
 
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:flex-wrap gap-3 p-4">
         {filteredProductos.length > 0 ? (
           filteredProductos.map((item, index) => (
             <div
               key={index}
-              className="border border-gray-300 rounded-lg p-4 w-full md:w-1/3 lg:w-1/4 shadow-md"
+              className="border border-gray-300 rounded-lg p-4  shadow-md"
             >
               <div className="flex justify-end items-center ">
                 <Link
-                  to={`/${modulo}/inventario/${item.id}/informacion`}
+                  to={`/${modulo}/stock/${item.id}/informacion`}
                   className="text-blue-500 hover:text-blue-700"
                 >
                   <FaInfoCircle size={20} />
                 </Link>
                 {modulo === 'admin' && (
                   <Link
-                    to={`/${modulo}/inventario/${item.id}/editar`}
+                    to={`/${modulo}/stock/${item.id}/editar`}
                     className="text-orange-500 hover:text-orange-700 ml-4"
                   >
                     <FaEdit size={20} />

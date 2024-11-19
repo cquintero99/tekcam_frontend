@@ -9,7 +9,7 @@ const ProductList: React.FC<{ filteredProductos: any[], formatCurrency: (value: 
         navigate(`/cliente/producto/${id}/informacion`);
     };
     return (
-      <div className="grid bg-white p-4 rounded-lg shadow-md grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  dark:bg-slate-900 dark:border-t dark:border">
+      <div className="grid  p-4  grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3  dark:bg-slate-900 dark:border-t dark:border">
         {filteredProductos?.map((producto, index) => (
           <motion.div
             key={producto.id}

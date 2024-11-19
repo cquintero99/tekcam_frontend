@@ -10,8 +10,6 @@ import {
 import Loader from './common/Loader';
 import routes from './routes/routes';
 import DefaultLayout from './layout/DefaultLayout';
-import SignIn from './pages/Authentication/SignIn';
-import SignUp from './pages/Authentication/SignUp';
 import ClienteLayout from './layout/ClienteLayout';
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
