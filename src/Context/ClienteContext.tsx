@@ -13,7 +13,6 @@ import { Marca } from '../types/Marca';
 import { Catalogo } from '../types/Catalogo';
 import { Producto } from '../types/producto';
 import Carrito from '../types/Carrito';
-import { set } from 'animejs';
 
 // Define el tipo para el contexto del producto
 type ClienteContextType = {

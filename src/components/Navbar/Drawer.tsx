@@ -3,6 +3,7 @@ import { FaMinus, FaPlus, FaShoppingBag } from 'react-icons/fa';
 import { MdClose, MdDelete } from 'react-icons/md';
 import { useClienteContext } from '../../Context/ClienteContext';
 import Carrito from '../../types/Carrito';
+import { Link } from 'react-router-dom';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -66,7 +67,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
                   type="text"
                   value={item.cantidad}
                   readOnly
-                  className="bg-gray-50 border-x-0 text-center h-7 text-sm w-full py-1.5 dark:bg-gray-700"
+                  className="bg-gray-50 border text-center h-7 text-sm w-full py-1.5 dark:bg-gray-700"
                 />
                 <button
                   type="button"
@@ -115,7 +116,7 @@ const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
       </header>
 
       <div
-        className="mb-6 mt-6 text-sm text-gray-500 dark:text-gray-400"
+        className="mb-6 mt-3 text-sm text-gray-500 dark:text-gray-400"
         style={{
             overflowY: 'auto',
             maxHeight: '470px',
@@ -142,12 +143,17 @@ const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
           >
             Continuar
           </button>
-          <a
-            href="#"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800"
-          >
-            Pagar
-          </a>
+          {carrito && carrito.length > 0 && (
+            <Link to="/cliente/pago">
+            <button
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+            >
+              PAGAR PEDIDO
+            </button>
+            </Link>
+          )}
+          
+        
         </div>
       </footer>
     </div>
