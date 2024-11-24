@@ -6,20 +6,13 @@ import { Producto } from '../../../../types/producto';
 import { motion } from 'framer-motion';
 
 const InfoProductoCliente = () => {
-  const { productos } = useClienteContext();
+  const { productos,agregarAlCarrito } = useClienteContext();
   const { id } = useParams<{ id: string }>();
   const idNumber: number = parseInt(id ?? '0', 10);
   const producto: Producto | undefined = productos?.find(
     (item: Producto) => item.id === idNumber,
   );
 
-  const agregarAlCarrito = (productoId: number) => {
-    let carrito = JSON.parse(localStorage.getItem('carrito') || '[]');
-    if (!carrito.includes(productoId)) {
-      carrito.push(productoId);
-      localStorage.setItem('carrito', JSON.stringify(carrito));
-    }
-  };
 
   if (!producto) {
     return <p>Producto no encontrado</p>;

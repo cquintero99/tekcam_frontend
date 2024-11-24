@@ -20,7 +20,7 @@ function formatCurrency(value: number | 0) {
 }
 
 const Productos: React.FC = () => {
-  const { productos, categorias, marcas } = useClienteContext();
+  const { productos, categorias, marcas, } = useClienteContext();
 
   // Estados para los filtros
   const [selectedCategoria, setSelectedCategoria] = useState<number | null>(
@@ -104,7 +104,7 @@ const Productos: React.FC = () => {
     }, []);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto ">
       <div className="flex flex-col md:flex-row">
         {/* Filtros (25% del ancho) */}
         <div className="w-full md:w-1/4 mr-3 ">
@@ -280,14 +280,14 @@ const Productos: React.FC = () => {
             {/* Botón para limpiar filtros */}
             <button
               onClick={handleLimpiarFiltros}
-              className="mt-4 w-full rounded bg-blue-600 px-4 py-2 font-medium text-white hover:bg-red-600"
+              className="mt-4 w-full rounded bg-red-600 px-4 py-2 font-medium text-white hover:bg-red-900"
             >
               Limpiar Filtros
             </button>
           </div>
         </div>
         {/* Productos (75% del ancho) */}
-        <div className="w-full md:w-3/4 bg-white rounded-lg shadow-md">
+        <div className="w-full md:w-3/4 bg-white rounded-lg shadow-md dark:bg-slate-900 dark:border-t dark:border">
        
         <SelectGroupOne
             filteredProductos={filteredProductos || []}
