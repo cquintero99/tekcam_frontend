@@ -29,6 +29,8 @@ type ClienteContextType = {
   actualizarCantidadCarrito: (productoId: number, cantidad: number) => void;
   drawerOpen: boolean;
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
+  preguntas: Pregunta[] | null;
+  setPreguntas: React.Dispatch<React.SetStateAction<Pregunta[] | null>>;
 };
 // Crea el contexto
 const ClienteContext = createContext<ClienteContextType | undefined>(
@@ -58,6 +60,7 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
   const [carrito, setCarrito] = useState<Carrito[]>(
     JSON.parse(localStorage.getItem('carrito') || '[]')
   );
+  const [preguntas, setPreguntas] = useState<Pregunta[] | null>([]);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   // Función para obtener las categorías y marcas
@@ -108,12 +111,26 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
       console.error('Error fetching data:', error);
     }
   }
+  const fetchPreguntas = async () => {
+    try {
+     
+      // Solicitud para obtener las preguntas
+      const preguntasResponse = await axios.get(`${BASE_URL}pregunta/cliente`, {
+       
+      });
+      console.log(preguntasResponse)
+      setPreguntas(preguntasResponse.data.data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
   
       fetchCategoriasYMarcas();
       fetchCatalogos()
        fetchProductos();
+       fetchPreguntas();
     
   }, []);
 
@@ -182,7 +199,9 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
         carrito,
         actualizarCantidadCarrito,
         drawerOpen,
-        setDrawerOpen
+        setDrawerOpen,
+        preguntas,
+        setPreguntas
       }}
     >
       {children}

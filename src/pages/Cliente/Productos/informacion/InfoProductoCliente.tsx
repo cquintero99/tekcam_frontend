@@ -4,6 +4,7 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { useClienteContext } from '../../../../Context/ClienteContext';
 import { Producto } from '../../../../types/producto';
 import { motion } from 'framer-motion';
+import Reseñas from '../Reseñas/Reseñas';
 
 const InfoProductoCliente = () => {
   const { productos,agregarAlCarrito } = useClienteContext();
@@ -87,6 +88,7 @@ const InfoProductoCliente = () => {
            
           </motion.div>
         </motion.div>
+        <Reseñas  />
       </motion.div>
     </>
   );

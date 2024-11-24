@@ -3,7 +3,7 @@ import { FaMinus, FaPlus, FaShoppingBag } from 'react-icons/fa';
 import { MdClose, MdDelete } from 'react-icons/md';
 import { useClienteContext } from '../../Context/ClienteContext';
 import Carrito from '../../types/Carrito';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface DrawerProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const formatCurrency = (value: number | undefined) =>
 const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
   const { carrito, productos, actualizarCantidadCarrito, quitarDelCarrito } =
     useClienteContext();
-
+  const navigate = useNavigate();
   const total = useMemo(() => {
     return carrito?.reduce((sum, item) => {
       const producto = productos?.find((prod) => prod.id === item.id);
@@ -144,13 +144,13 @@ const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
             Continuar
           </button>
           {carrito && carrito.length > 0 && (
-            <Link to="/cliente/pago">
+        
             <button
+              onClick={() => navigate('/cliente/pago')}
               className="px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800"
             >
               PAGAR PEDIDO
             </button>
-            </Link>
           )}
           
         

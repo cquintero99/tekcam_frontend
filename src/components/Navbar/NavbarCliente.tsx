@@ -13,9 +13,12 @@ const NavbarCliente = () => {
     setDrawerOpen} = useClienteContext();
   // Replace javascript:void(0) path with your path
   const navigation = [
-    { title: 'Inicio', path: '/' },
-    // { title: 'Categorías', path: '/cliente#categorias' },
+    { title: 'Inicio', path: '/cliente' },
+    
     { title: 'Productos', path: '/cliente/productos' },
+    
+    { title: 'Preguntas Frecuentes', path: '/cliente/preguntas-frecuentes' },
+    { title: 'PQR', path: '/cliente/pqr' },
     { title: 'Login', path: '/cliente/login' },
   ];
   const [colorMode, setColorMode] = useColorMode();
