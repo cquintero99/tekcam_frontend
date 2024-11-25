@@ -25,7 +25,7 @@ const SelectGroupOne: React.FC<{
   };
 
   return (
-    <div className="flex flex-wrap gap-4 items-center mb-3 mt-1 border-b border-gray-300 pb-2">
+    <div className="flex flex-wrap gap-4 items-center mb-3 mt-1 border-b border-gray-300 pb-2 ">
       {/* Input de búsqueda */}
       <input
         type="text"
@@ -47,12 +47,8 @@ const SelectGroupOne: React.FC<{
       </select>
 
       {/* Botón para limpiar filtros */}
-      <button
-        onClick={onClearFilters}
-        className="rounded-lg bg-blue-500 text-white py-2 px-4 hover:bg-red-600"
-      >
-        <MdCancel />
-      </button>
+      <MdCancel  onClick={onClearFilters}  className=" text-xl text-red-600 hover:text-red-900 mr-3"/>
+      
     </div>
   );
 };

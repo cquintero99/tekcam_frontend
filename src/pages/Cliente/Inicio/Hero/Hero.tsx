@@ -1,6 +1,7 @@
 import { useEffect, useRef, ReactNode } from "react";
 
 import { useAnimation, useInView, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Hero: React.FC = () => {
     return (
@@ -25,9 +26,12 @@ const Hero: React.FC = () => {
               </p>
             </Reveal>
             <Reveal>
+              <Link to="/cliente/productos">
               <button className="pointer-events-auto mt-6 rounded bg-blue-900 px-6 py-3 font-medium text-slate-100 transition-all hover:bg-indigo-700 active:scale-95 md:mt-8">
                 Explorar Productos
               </button>
+              </Link>
+              
             </Reveal>
           </div>
         </div>

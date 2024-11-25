@@ -17,6 +17,10 @@ import Login from '../pages/Authentication/Login';
 import Productos from '../pages/Cliente/Productos/Productos';
 import InfoProductoCliente from '../pages/Cliente/Productos/informacion/InfoProductoCliente';
 import ResetPassword from '../pages/Authentication/ResetPassword';
+import Checkout from '../pages/Cliente/Pago/Checkout';
+import Preguntas from '../pages/Preguntas/Preguntas';
+import PreguntasFrecuentres from '../pages/Cliente/Preguntas/PreguntasFrecuentres';
+import PQR from '../pages/Cliente/PQR/PQR';
 
 const routes: RouteObject[] = [
   {
@@ -92,6 +96,15 @@ const routes: RouteObject[] = [
       </>
     ),
   },
+  {
+    path: '/admin/preguntas',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Preguntas />
+      </>
+    ),
+  },
 
   {
     path: '/admin/perfil',
@@ -148,6 +161,16 @@ const routes: RouteObject[] = [
       </>
     ),
   },
+  {
+    path: '/vendedor/preguntas',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Preguntas />
+      </>
+    ),
+  },
+
 
   {
     path: '/vendedor/perfil',
@@ -201,6 +224,33 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="TEKCAM Login " />
         <InfoProductoCliente />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/pago',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Login " />
+        <Checkout />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/preguntas-frecuentes',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Preguntas Frecuentes " />
+        <PreguntasFrecuentres />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/pqr',
+    element: (
+      <>
+        <PageTitle title="TEKCAM PQR " />
+        <PQR />
       </>
     ),
   },
