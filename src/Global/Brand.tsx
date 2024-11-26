@@ -1,5 +1,5 @@
 
-import Logo from '../images/logo/tekcam.png';
+import Logo from '/tekcam.png';
 
 const Brand = ({dark = false}) => {
   return (
