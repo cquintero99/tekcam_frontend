@@ -45,7 +45,7 @@ const NavbarCliente = () => {
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <div className="flex items-center gap-2">
               <img
-                src="/src/images/logo/tekcam.png"
+                src="/tekcam.png"
                 width={30}
                 height={50}
                 alt="Tekcam Logo"
@@ -117,9 +117,11 @@ const NavbarCliente = () => {
                 onClick={() => setDrawerOpen(true)}
               >
                 <FaShoppingBag />
+                {carrito && carrito.length > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-semibold text-gray-800 bg-red-700 rounded-full transform translate-x-1/2 -translate-y-1/2">
                   {carrito?.length}
                 </span>
+                )}
               </button>
 
               <div

@@ -15,9 +15,9 @@ const sections: Section[] = [
   },
   {
     title: "2. OBJETO Y ÁMBITO DE APLICACIÓN",
-    content: `Los presentes, constituyen los términos y las condiciones que se deberán tener en cuenta por los Clientes para las compras que realicen en el sitio web https://zonagamer.co/ O Tienda Online o por canales de comercio electrónico tales como WhatsApp -en lo que sea aplicable de los productos que comercializa Cash.
+    content: `Los presentes, constituyen los términos y las condiciones que se deberán tener en cuenta por los Clientes para las compras que realicen en el sitio web https://tekcam-frontend.vercel.app/cliente O Tienda Online o por canales de comercio electrónico tales como WhatsApp -en lo que sea aplicable de los productos que comercializa Cash.
     
-    Se entenderán como productos los elementos, accesorios y repuestos que se comercializan en https://zonagamer.co/ o Tienda Online o por canales de comercio electrónico tales como WhatsApp -en lo que sea aplicable. Los términos y condiciones aquí descritos les serán aplicables de manera indistinta a la totalidad de productos, salvo que se indique expresamente lo contrario, caso en el cual se establecerán las condiciones especiales para la comercialización de cada tipo de producto.`,
+    Se entenderán como productos los elementos, accesorios y repuestos que se comercializan en https://tekcam-frontend.vercel.app/cliente o Tienda Online o por canales de comercio electrónico tales como WhatsApp -en lo que sea aplicable. Los términos y condiciones aquí descritos les serán aplicables de manera indistinta a la totalidad de productos, salvo que se indique expresamente lo contrario, caso en el cual se establecerán las condiciones especiales para la comercialización de cada tipo de producto.`,
   },
   {
     title: "3. ACLARACIONES IMPORTANTES",
@@ -62,8 +62,8 @@ const sections: Section[] = [
   },
   {
     title: "11. CANALES DE ATENCIÓN AL CLIENTE",
-    content: `Líneas telefónicas: 3013842551
-    Correo electrónico: cambios@cashcolombia.com
+    content: `Líneas telefónicas: +57 313 2215688
+    Correo electrónico: tekcam.store@gmail.com
     Chat y WhatsApp: +57 3013842551`,
   },
 ];

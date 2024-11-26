@@ -34,7 +34,7 @@ const NavbarCheckout = () => {
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
             <Link to="/cliente/productos" className="flex items-center gap-2">
               <img
-                src="/src/images/logo/tekcam.png"
+                src="/tekcam.png"
                 width={30}
                 height={50}
                 alt="Tekcam Logo"

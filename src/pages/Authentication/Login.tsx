@@ -5,6 +5,7 @@ import AuthLayout from './AuthLayout';
 import Loader from '../../common/Loader';
 
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +17,7 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post('http://localhost:8080/login', {
+      const response = await axios.post(BASE_URL+'login', {
         email,
         password,
       });
