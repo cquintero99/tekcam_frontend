@@ -5,6 +5,7 @@ import Productos from './Productos/Productos';
 import MetodoEnvio from './MetodosEnvio/MetodoEnvio';
 import { useClienteContext } from '../../../Context/ClienteContext';
 import Loader from '../../../common/Loader';
+import ListaExperiencias from './Experiencias/ListaExperiencias';
 
 interface Department {
   id: number;
@@ -120,7 +121,7 @@ const Checkout = () => {
       <div
         style={{
           overflowY: 'auto',
-          maxHeight: '650px',
+          maxHeight: '750px',
           scrollbarWidth: 'none',
           msOverflowStyle: 'none',
         }}
@@ -324,12 +325,11 @@ const Checkout = () => {
         </form>
       </div>
       {/* Segunda columna: Espacio adicional */}
-      <Productos />
-      {/* <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-        <p className="text-gray-600 dark:text-gray-300 text-lg">
-          Información adicional o imagen aquí.
-        </p>
-      </div> */}
+     <div>
+     <Productos />
+      
+      <ListaExperiencias />
+     </div>
     </div>
   );
 };

@@ -22,6 +22,7 @@ import Preguntas from '../pages/Preguntas/Preguntas';
 import PreguntasFrecuentres from '../pages/Cliente/Preguntas/PreguntasFrecuentres';
 import PQR from '../pages/Cliente/PQR/PQR';
 import PedidoCliente from '../pages/Cliente/Pedido/Pedido';
+import Pedidos from '../pages/Pedidos/Pedidos';
 const routes: RouteObject[] = [
   {
     path: '/admin/',
@@ -105,6 +106,15 @@ const routes: RouteObject[] = [
       </>
     ),
   },
+  {
+    path: '/admin/pedidos',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Pedidos />
+      </>
+    ),
+  },
 
   {
     path: '/admin/perfil',
@@ -121,6 +131,15 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="eCommerce Dashboard " />
         <ECommerce />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/pedidos',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Pedidos />
       </>
     ),
   },
@@ -171,7 +190,6 @@ const routes: RouteObject[] = [
     ),
   },
 
-
   {
     path: '/vendedor/perfil',
     element: (
@@ -181,7 +199,7 @@ const routes: RouteObject[] = [
       </>
     ),
   },
- 
+
   {
     path: '/cliente/',
     element: (

@@ -5,18 +5,28 @@ import EstadoPedido from './Estado/Estado';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePayments } from 'react-icons/md';
 import Productos from './Productos/Productos';
+import ExperienciaCompra from './Experiencia/ExperienciaCompra';
+
 
 const PedidoCliente = () => {
   const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
   const [pedidoCliente, setPedidoCliente] = useState<any>(null);
-
+  const [isOpen, setIsOpen] = useState(false);
   const { ref } = useParams();
-
+  useEffect(() => {
+    console.log(pedidoCliente);
+    if(pedidoCliente?.data?.experienciaCompra===null){
+      setIsOpen(true);
+    }else{
+      
+    setIsOpen(false);
+    }
+  }, [pedidoCliente]);
   useEffect(() => {
     // Fetch order details by reference
     if (!ref) return;
     axios
-      .get(BASE_URL + 'factura/cliente/ref/' + ref)
+      .get(BASE_URL + 'factura/cliente/ref/informacion/' + ref)
       .then((response) => {
         console.log(response.data);
         setPedidoCliente(response.data);
@@ -26,10 +36,12 @@ const PedidoCliente = () => {
       });
   }, [ref]);
 
+
+
   if (!pedidoCliente)
     return (
       <div className="flex justify-center items-center h-screen text-xl font-semibold">
-        Loading...
+        Buscando referencia...
       </div>
     );
 
@@ -39,7 +51,9 @@ const PedidoCliente = () => {
         PEDIDO
         <span>{ref}</span>
       </h1>
-
+      {isOpen === true && (
+        <ExperienciaCompra isOpen={isOpen} setIsOpen={setIsOpen} />
+      )}
       <div className="mb-8 border-b">
         <EstadoPedido estados={pedidoCliente?.data?.estados} />
       </div>

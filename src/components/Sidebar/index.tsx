@@ -6,7 +6,7 @@ import SidebarLinkGroup from './SidebarLinkGroup';
 import {
   AiOutlineDashboard,
   AiOutlineUser,
-  AiFillDropboxSquare
+  AiFillDropboxSquare,
 } from 'react-icons/ai';
 import Brand from '../../Global/Brand';
 import { useUserContext } from '../../Context/UserContext';
@@ -32,14 +32,19 @@ const routesSidebar: RouteItem[] = [
   { to: '/admin/vendedores', icon: AiOutlineUser, label: 'Vendedores' },
 
   { to: '/admin/stock', icon: AiFillDropboxSquare, label: 'Stock' },
-  { to: '/admin/preguntas', icon: AiFillDropboxSquare, label: 'Preguntas Frecuentes' },
+  { to: '/admin/pedidos', icon: AiFillDropboxSquare, label: 'Pedidos' },
+  {
+    to: '/admin/preguntas',
+    icon: AiFillDropboxSquare,
+    label: 'Preguntas Frecuentes',
+  },
 
   // {
   //   to: '/admin/ui',
   //   icon: AiFillDropboxSquare,
-  //   label: 'UI Elements',
+  //   label: 'Pedidos',
   //   subRoutes: [
-  //     { to: '/admin/ui/alerts', icon: null, label: 'Alerts' },
+  //     { to: '/admin/pedidos/confirmar', icon: null, label: 'Alerts' },
   //     { to: '/admin/ui/buttons', icon: null, label: 'Buttons' },
   //   ],
   // },
@@ -52,7 +57,12 @@ const routesSidebarVendedor: RouteItem[] = [
   },
 
   { to: '/vendedor/stock', icon: AiFillDropboxSquare, label: 'Stock' },
-  { to: '/vendedor/preguntas', icon: AiFillDropboxSquare, label: 'Preguntas Frecuentes' },
+  { to: '/vendedor/pedidos', icon: AiFillDropboxSquare, label: 'Pedidos' },
+  {
+    to: '/vendedor/preguntas',
+    icon: AiFillDropboxSquare,
+    label: 'Preguntas Frecuentes',
+  },
 
   // {
   //   to: '/admin/ui',
@@ -89,7 +99,7 @@ const IconLink = ({
 };
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const {modulo}=useUserContext()
+  const { modulo } = useUserContext();
   const location = useLocation();
   const { pathname } = location;
 
@@ -134,7 +144,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     }
   }, [sidebarExpanded]);
 
-  const routesFiltered = modulo==="vendedor"?routesSidebarVendedor:routesSidebar
+  const routesFiltered =
+    modulo === 'vendedor' ? routesSidebarVendedor : routesSidebar;
 
   return (
     <aside
@@ -144,7 +155,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <Link to={"/"+modulo}>
+        <Link to={'/' + modulo}>
           <Brand dark={true} />
         </Link>
 
