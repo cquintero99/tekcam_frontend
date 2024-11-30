@@ -1,18 +1,20 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import EstadoPedido from './Estado/Estado';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePayments } from 'react-icons/md';
 import Productos from './Productos/Productos';
 import ExperienciaCompra from './Experiencia/ExperienciaCompra';
 import Breadcrumb from '../../../components/Breadcrumbs/Breadcrumb';
+import Loader from '../../../common/Loader';
 
 const PedidoEmpleado = () => {
   const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
   const [pedidoCliente, setPedidoCliente] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
   const { ref } = useParams();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     console.log(pedidoCliente);
     if (pedidoCliente?.data?.experienciaCompra === null) {
@@ -24,14 +26,23 @@ const PedidoEmpleado = () => {
   useEffect(() => {
     // Fetch order details by reference
     if (!ref) return;
+    setLoading(true);
     axios
       .get(BASE_URL + 'factura/cliente/ref/informacion/' + ref)
       .then((response) => {
         console.log(response.data);
-        setPedidoCliente(response.data);
+        if (response.data.success) {
+          setPedidoCliente(response.data);
+        } else {
+          alert(response.data.msg);
+        }
       })
       .catch((error) => {
         console.error('Error fetching order details:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+        console.log('Pedido cliente cargado');
       });
   }, [ref]);
 
@@ -39,12 +50,14 @@ const PedidoEmpleado = () => {
     return (
       <div className="flex justify-center items-center h-screen text-xl font-semibold">
         Buscando referencia...
+        <Loader />
       </div>
     );
 
   return (
     <div className="max-w-7xl mx-auto p-3 rounded-lg mt-3">
       <Breadcrumb pageName="Informacion " lastPage="pedidos" />
+      {loading && <Loader />}
       <h1 className="text-xl font-bold text-gray-800 mb-6 border-b pb-4 flex justify-between items-center">
         PEDIDO
         <span>{ref}</span>
@@ -53,8 +66,29 @@ const PedidoEmpleado = () => {
         <ExperienciaCompra isOpen={isOpen} setIsOpen={setIsOpen} />
       )}
       <div className="mb-8 border-b">
-        <EstadoPedido estados={pedidoCliente?.data?.estados} />
+        <EstadoPedido
+          estados={pedidoCliente?.data?.estados}
+          setPedidoCliente={setPedidoCliente}
+        />
+        <div className="justify-center text-center mb-4">
+          {pedidoCliente?.data?.guia !== null && (
+            <h2 className="text-xl font-semibold text-gray-700  text-center uppercase">
+              N° GUIA {pedidoCliente?.data?.guia}
+            </h2>
+          )}
+
+          {pedidoCliente?.data?.paginaSeguimiento !== null && (
+            <Link
+              to={pedidoCliente?.data?.paginaSeguimiento}
+              target="_blank"
+              className="text-xl font-semibold text-blue-700 mb-0 text-center mb-4 uppercase"
+            >
+              Rastrear el envío
+            </Link>
+          )}
+        </div>
       </div>
+
       <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center uppercase">
         Información del Pedido
       </h2>
