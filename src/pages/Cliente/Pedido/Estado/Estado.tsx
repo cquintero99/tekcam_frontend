@@ -4,14 +4,14 @@ import { useState } from 'react';
 const EstadoPedido = ({ estados }: { estados: any[] }) => {
   const [mostrarHistorial, setMostrarHistorial] = useState(false);
   const estadosBase = ['RECIBIDO', 'PREPARACION', 'ENVIADO', 'ENTREGADO'];
-  const estadoActual = estados[0]?.estado?.nombre;
+  const estadoActual = estados[estados.length - 1]?.estado?.nombre;
   let estadosAMostrar = [...estadosBase];
-
   if (estadoActual === 'CANCELADO' || estadoActual === 'DEVOLUCION') {
     estadosAMostrar.push('EXCEPCION', estadoActual);
   } else if (!estadosBase.includes(estadoActual)) {
     estadosAMostrar.push(estadoActual);
   }
+
 
   return (
     <div>
@@ -31,11 +31,19 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
               <hr
                 className={`w-full border hidden md:block ${
                   idx === 0 ? 'border-none' : ''
-                } ${estado === estadoActual ? 'border-green-900' : ''}`}
+                } ${
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'border-green-600'
+                    : ''
+                }`}
               />
               <div
                 className={`w-8 h-8 rounded-full border-2 flex-none flex items-center justify-center ${
-                  estado === estadoActual ? 'bg-gray-600 border-green-600' : ''
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'bg-gray-600 border-green-600'
+                    : ''
                 }`}
               >
                 <span
@@ -50,7 +58,7 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
                     viewBox="0 0 24 24"
                     strokeWidth={1.5}
                     stroke="currentColor"
-                    className="w-5 h-5 text-white"
+                    className="w-5 h-5 text-gray-600"
                   >
                     <path
                       strokeLinecap="round"
@@ -63,13 +71,21 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
               <hr
                 className={`h-12 border md:w-full md:h-auto ${
                   idx + 1 === estadosAMostrar.length ? 'border-none' : ''
-                } ${estado === estadoActual ? 'border-grenn-600' : ''}`}
+                } ${
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'border-green-600'
+                    : ''
+                }`}
               />
             </div>
             <div className="h-8 flex justify-center items-center md:mt-3 md:h-auto">
               <h3
                 className={`text-sm ${
-                  estado === estadoActual ? 'text-green-600' : 'text-red-600'
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {estado}
@@ -78,6 +94,7 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
           </li>
         ))}
       </ul>
+    
 
       <div className="mb-8 w-full">
         <div className='flex justify-end '>

@@ -1,11 +1,25 @@
 import { useState } from 'react';
 import EstadoPedidoModal from './EstadoPedidoModal';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import Loader from '../../../../common/Loader';
+import { usePedidoContext } from '../../../../Context/PedidoContext';
 
-const EstadoPedido = ({ estados }: { estados: any[] }) => {
+const EstadoPedido = ({
+  estados,
+  setPedidoCliente,
+}: {
+  estados: any[];
+  setPedidoCliente: React.Dispatch<React.SetStateAction<any>>;
+}) => {
+  const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
+  const token = localStorage.getItem('token');
+  const { ref } = useParams();
+  const { setPedidos } = usePedidoContext();
   const [mostrarHistorial, setMostrarHistorial] = useState(false);
-  
+  const [loading, setLoading] = useState(false);
   const estadosBase = ['RECIBIDO', 'PREPARACION', 'ENVIADO', 'ENTREGADO'];
-  const estadoActual = estados[0]?.estado?.nombre;
+  const estadoActual = estados[estados.length - 1]?.estado?.nombre;
   let estadosAMostrar = [...estadosBase];
 
   if (estadoActual === 'CANCELADO' || estadoActual === 'DEVOLUCION') {
@@ -14,10 +28,51 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
     estadosAMostrar.push(estadoActual);
   }
 
-  const handleActualizarEstado = (data: { estadoActual:string, estado: string; guia?: string; paginaSeguimiento?: string }) => {
+  const handleActualizarEstado = async (data: any) => {
     console.log('Estado actualizado:', data);
+    const nuevoEstado = {
+      ref,
+      estadoActual: data.estadoActual,
+      estadoNuevo: data.estado,
+      guia: data.guia,
+      paginaSeguimiento: data.paginaSeguimiento,
+      descripcion: data.descripcion,
+    };
+    console.log(nuevoEstado);
 
- 
+    setLoading(true);
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    };
+    await axios
+      .post(`${BASE_URL}factura/actualizar/estado`, nuevoEstado, {
+        headers,
+      })
+      .then((response) => {
+        console.log(response);
+        if (response.data.success) {
+          setPedidoCliente(response.data);
+          // Actualizar el pedido en la lista de setPedidos
+          setPedidos((prevPedidos) => {
+            return prevPedidos.map((pedido) => {
+              if (pedido.ref === ref) {
+                return { ...pedido, ...response.data.data };
+              }
+              return pedido;
+            });
+          });
+          //Buscar el pedido por id y actualizar
+        } else {
+          alert(response.data.msg);
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching order details:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -25,6 +80,7 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
       <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center uppercase">
         Estado del Pedido
       </h2>
+      {loading && <Loader />}
       <ul
         aria-label="Steps"
         className="items-center text-gray-600 font-medium md:flex"
@@ -38,11 +94,19 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
               <hr
                 className={`w-full border hidden md:block ${
                   idx === 0 ? 'border-none' : ''
-                } ${estado === estadoActual ? 'border-green-900' : ''}`}
+                } ${
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'border-green-600'
+                    : ''
+                }`}
               />
               <div
                 className={`w-8 h-8 rounded-full border-2 flex-none flex items-center justify-center ${
-                  estado === estadoActual ? 'bg-gray-600 border-green-600' : ''
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'bg-gray-600 border-green-600'
+                    : ''
                 }`}
               >
                 <span
@@ -70,13 +134,21 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
               <hr
                 className={`h-12 border md:w-full md:h-auto ${
                   idx + 1 === estadosAMostrar.length ? 'border-none' : ''
-                } ${estado === estadoActual ? 'border-green-600' : ''}`}
+                } ${
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'border-green-600'
+                    : ''
+                }`}
               />
             </div>
             <div className="h-8 flex justify-center items-center md:mt-3 md:h-auto">
               <h3
                 className={`text-sm ${
-                  estado === estadoActual ? 'text-green-600' : 'text-red-600'
+                  idx <=
+                  estados.findIndex((e) => e.estado?.nombre === estadoActual)
+                    ? 'text-green-600'
+                    : 'text-red-600'
                 }`}
               >
                 {estado}
@@ -85,15 +157,16 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
           </li>
         ))}
       </ul>
+    
 
       <div className="mb-8 w-full">
         <div className="flex justify-end mt-3">
-        <EstadoPedidoModal
-          estadosPosibles={estadosAMostrar}
-          estadoActual={estadoActual}
-          onActualizarEstado={handleActualizarEstado}
-        />
-          
+          <EstadoPedidoModal
+            estadosPosibles={estadosAMostrar}
+            estadoActual={estadoActual}
+            onActualizarEstado={handleActualizarEstado}
+          />
+
           <strong
             typeof="button"
             className="px-4 py-2 rounded cursor-pointer underline"
@@ -125,8 +198,6 @@ const EstadoPedido = ({ estados }: { estados: any[] }) => {
           </div>
         )}
       </div>
-
-     
     </div>
   );
 };

@@ -7,7 +7,7 @@ interface EstadoPedidoModalProps {
   estadosPosibles: string[];
   estadoActual: string;
   onActualizarEstado: (data: {
-    estadoActual:string,
+    estadoActual: string;
     estado: string;
     guia?: string;
     paginaSeguimiento?: string;
@@ -20,45 +20,47 @@ const EstadoPedidoModal: React.FC<EstadoPedidoModalProps> = ({
   estadoActual,
   onActualizarEstado,
 }) => {
-  const [estadoSeleccionado, setEstadoSeleccionado] =
-    useState<string>(estadoActual);
   const [guia, setGuia] = useState<string>('');
-  const [paginaSeguimiento, setPaginaSeguimiento] = useState<string>('');
+  const [paginaSeguimiento, setPaginaSeguimiento] = useState<string>('https://www.servientrega.com/wps/portal/rastreo-envio');
   const [descripcion, setDescripcion] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  const estadoSiguiente = (() => {
+    const estadosBase = ['RECIBIDO', 'PREPARACION', 'ENVIADO', 'ENTREGADO'];
+    const indexActual = estadosBase.indexOf(estadoActual);
+    return indexActual >= 0 && indexActual < estadosBase.length - 1
+      ? estadosBase[indexActual + 1]
+      : null;
+  })();
+
   const handleActualizarEstado = () => {
-    if (estadoSeleccionado === 'ENVIADO' && (!guia || !paginaSeguimiento)) {
+    if (estadoSiguiente === 'ENVIADO' && (!guia || !paginaSeguimiento)) {
       setError(
         'Los campos "Guía" y "Página de seguimiento" son obligatorios para el estado "Enviado".',
       );
       return;
     }
-    if (!descripcion) {
-      setError('El campo "Descripción" es obligatorio.');
-      return;
-    }
-    setError('');
-    onActualizarEstado({estadoActual:estadoActual, estado: estadosSiguientes()[0], guia, paginaSeguimiento, descripcion });
-    setIsModalOpen(false); // Close the modal after updating the state
-  };
 
-  const estadosSiguientes = () => {
-    const estadosBase = ['RECIBIDO', 'PREPARACION', 'ENVIADO', 'ENTREGADO'];
-    const indexActual = estadosBase.indexOf(estadoActual);
-    if (indexActual >= 0 && indexActual < estadosBase.length - 1) {
-      return [estadosBase[indexActual + 1]];
-    }
-    return [];
+    setError('');
+    onActualizarEstado({
+      estadoActual,
+      estado: estadoSiguiente!,
+      guia,
+      paginaSeguimiento,
+      descripcion,
+    });
+    setIsModalOpen(false);
   };
 
   return (
     <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
       <Dialog.Trigger asChild>
+        {estadoActual !=="ENTREGADO" &&(
         <button className="btn btn-primary underline font-bold">
           Actualizar Estado
         </button>
+        )}
       </Dialog.Trigger>
       <Dialog.Overlay className="fixed inset-0 bg-black/30" />
       <Dialog.Content
@@ -79,18 +81,16 @@ const EstadoPedidoModal: React.FC<EstadoPedidoModalProps> = ({
         <div className="mb-4">
           <label className="block mb-2 font-semibold">Próximo Estado</label>
           <select
-            value={estadoSeleccionado}
-            onChange={(e) => setEstadoSeleccionado(e.target.value)}
+            value={estadoSiguiente || ''}
+            disabled
             className="w-full p-2 border rounded-md"
           >
-            {estadosSiguientes().map((estado) => (
-              <option key={estado} value={estado}>
-                {estado}
-              </option>
-            ))}
+            {estadoSiguiente && (
+              <option value={estadoSiguiente}>{estadoSiguiente}</option>
+            )}
           </select>
         </div>
-        {estadoSeleccionado === 'ENVIADO' && (
+        {estadoSiguiente === 'ENVIADO' && (
           <>
             <div className="mb-4">
               <label className="block mb-2 font-semibold">Guía</label>
@@ -115,7 +115,9 @@ const EstadoPedidoModal: React.FC<EstadoPedidoModalProps> = ({
           </>
         )}
         <div className="mb-4">
-          <label className="block mb-2 font-semibold">Descripción</label>
+          <label className="block mb-2 font-semibold">
+            Descripción (Opcional)
+          </label>
           <textarea
             value={descripcion}
             onChange={(e) => setDescripcion(e.target.value)}
@@ -126,9 +128,14 @@ const EstadoPedidoModal: React.FC<EstadoPedidoModalProps> = ({
         {error && <p className="text-red-600 mb-4">{error}</p>}
         <div className="flex justify-end gap-2">
           <Dialog.Close asChild>
-            <button className="btn btn-secondary">Cancelar</button>
+            <button className="w-full mt-2 p-2.5 flex-1 text-gray-800 rounded-md border outline-none ring-offset-2 ring-indigo-600 focus:ring-2">
+              Cancelar
+            </button>
           </Dialog.Close>
-          <button onClick={handleActualizarEstado} className="btn btn-primary">
+          <button
+            onClick={handleActualizarEstado}
+            className="w-full mt-2 p-2.5 flex-1 text-white bg-indigo-600 rounded-md outline-none ring-offset-2 ring-indigo-600 focus:ring-2"
+          >
             Actualizar
           </button>
         </div>

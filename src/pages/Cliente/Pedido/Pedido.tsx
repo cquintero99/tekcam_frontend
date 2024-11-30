@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import EstadoPedido from './Estado/Estado';
 import { FaUser } from 'react-icons/fa';
 import { MdOutlinePayments } from 'react-icons/md';
@@ -56,6 +56,23 @@ const PedidoCliente = () => {
       )}
       <div className="mb-8 border-b">
         <EstadoPedido estados={pedidoCliente?.data?.estados} />
+        <div className="justify-center text-center mb-4">
+          {pedidoCliente?.data?.guia !== null && (
+            <h2 className="text-xl font-semibold text-gray-700  text-center uppercase">
+              N° GUIA {pedidoCliente?.data?.guia}
+            </h2>
+          )}
+
+          {pedidoCliente?.data?.paginaSeguimiento !== null && (
+            <Link
+              to={pedidoCliente?.data?.paginaSeguimiento}
+              target="_blank"
+              className="text-xl font-semibold text-blue-700 mb-0 text-center mb-4 uppercase"
+            >
+              Rastrear el envío
+            </Link>
+          )}
+        </div>
       </div>
       <h2 className="text-xl font-semibold text-gray-700 mb-4 text-center uppercase">
         Información del Pedido
