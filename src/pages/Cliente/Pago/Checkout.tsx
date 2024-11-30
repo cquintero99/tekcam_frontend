@@ -3,6 +3,9 @@ import axios from 'axios';
 import MetodoPago from './MetodosPago/MetodoPago';
 import Productos from './Productos/Productos';
 import MetodoEnvio from './MetodosEnvio/MetodoEnvio';
+import { useClienteContext } from '../../../Context/ClienteContext';
+import Loader from '../../../common/Loader';
+import ListaExperiencias from './Experiencias/ListaExperiencias';
 
 interface Department {
   id: number;
@@ -15,10 +18,12 @@ interface City {
 }
 
 const Checkout = () => {
+  const BASE_URL = import.meta.env.VITE_URL_BACKEND_LOCAL;
   const [departments, setDepartments] = useState<Department[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState('');
-
+  const { carrito, } = useClienteContext();
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Fetch departments from API-Colombia
     axios
@@ -55,38 +60,72 @@ const Checkout = () => {
     // Recopilar datos del formulario
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
-
+    const departmentId = parseInt(data.department as string, 10);
+    const departamento =
+      departments?.find((department) => department.id === departmentId)?.name ||
+      '';
     // Convertir los datos en un objeto de tipos correctos
     const formValues = {
-      email: data.email as string,
-      firstName: data.first_name as string,
-      lastName: data.last_name as string,
-      idNumber: data.id_number as string,
-      department: data.department as string,
-      city: data.city as string,
-      address: data.address as string,
-      apartment: data.apartment as string,
-      phone: data.phone as string,
-      postalCode: data.postal_code as string,
-      paymentMethod: data.payment as string,
+      email: data.email ,
+      nombre: data.first_name ,
+      apellido: data.last_name ,
+      documento: data.id_number ,
+      departamento: departamento,
+      ciudad: data.city ,
+      direccion: data.address ,
+      apartamento: data.apartment ,
+      celular: data.phone ,
+      postalCode: data.postal_code ,
+      metodoPago: data.payment ,
     };
 
     console.log('Formulario enviado:', formValues);
+    const productos = carrito?.map((item) => ({
+      producto: { id: item.id },
+      cantidad: item.cantidad,
+    }));
+    console.log(productos);
+    const factura = {
+      metodoPago: data.payment ,
+      productos: productos,
+      cliente: formValues,
+    };
+    console.log(factura);
+    saveFactura(factura as any);
 
+    
     // Aquí puedes enviar los datos al servidor usando axios u otro método
+  };
+  const saveFactura = async (factura: any ) => {
+    try {
+      setLoading(true)
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      // Solicitud para obtener los productos
+      const facturaResponse = await axios.post(`${BASE_URL}factura/cliente/save`, factura, {
+        headers,
+      });
+      console.log(facturaResponse)
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false)
+    }
   };
 
   return (
     <div className="grid sm:grid-cols-2 gap-2 bg-white dark:bg-slate-900 ">
       {/* Primera columna: Formulario */}
-      <div  
-       style={{
-            overflowY: 'auto',
-            maxHeight: '650px',
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none', 
-          }}
-          >
+      {loading && <Loader/>}
+      <div
+        style={{
+          overflowY: 'auto',
+          maxHeight: '750px',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
+      >
         <form className="max-w-xl mx-auto " onSubmit={handleSubmit}>
           <h1 className="text-2xl font-bold mb-4">Contacto</h1>
           <div className="relative z-0 w-full mb-5 group">
@@ -122,7 +161,7 @@ const Checkout = () => {
               País / Región
             </label>
           </div>
-        
+
           <div className="grid md:grid-cols-2 md:gap-6">
             <div className="relative z-0 w-full mb-5 group">
               <input
@@ -190,7 +229,6 @@ const Checkout = () => {
                 </option>
               ))}
             </select>
-         
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <select
@@ -208,7 +246,6 @@ const Checkout = () => {
                 </option>
               ))}
             </select>
-          
           </div>
           <div className="relative z-0 w-full mb-5 group">
             <input
@@ -243,22 +280,22 @@ const Checkout = () => {
             </label>
           </div>
           <div className="grid md:grid-cols-2 md:gap-6">
-          <div className="relative z-0 w-full mb-5 group">
-            <input
-              type="tel"
-              name="phone"
-              id="phone"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              required
-            />
-            <label
-              htmlFor="phone"
-              className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0"
-            >
-              Teléfono
-            </label>
-          </div>
+            <div className="relative z-0 w-full mb-5 group">
+              <input
+                type="tel"
+                name="phone"
+                id="phone"
+                className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                placeholder=" "
+                required
+              />
+              <label
+                htmlFor="phone"
+                className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0"
+              >
+                Teléfono
+              </label>
+            </div>
             <div className="relative z-0 w-full mb-5 group">
               <input
                 type="text"
@@ -274,27 +311,25 @@ const Checkout = () => {
                 Código postal (opcional)
               </label>
             </div>
-            
           </div>
-          <MetodoEnvio  />
-          <MetodoPago/>
+          <MetodoEnvio />
+          <MetodoPago />
           <div className="relative z-0 w-full mb-5 mt-3 group">
-          <button
-            type="submit"
-            className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            PAGAR AHORA
-          </button>
+            <button
+              type="submit"
+              className="text-white w-full bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm  px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              PAGAR AHORA
+            </button>
           </div>
         </form>
       </div>
       {/* Segunda columna: Espacio adicional */}
-      <Productos />
-      {/* <div className="flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
-        <p className="text-gray-600 dark:text-gray-300 text-lg">
-          Información adicional o imagen aquí.
-        </p>
-      </div> */}
+     <div>
+     <Productos />
+      
+      <ListaExperiencias />
+     </div>
     </div>
   );
 };

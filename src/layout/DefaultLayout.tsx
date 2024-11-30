@@ -4,11 +4,13 @@ import Sidebar from '../components/Sidebar/index';
 import { UserProvider } from '../Context/UserContext';
 import { ProductoProvider } from '../Context/ProductoContext';
 import { UsuariosProvider } from '../Context/UsuariosContext';
+import { PedidoProvider } from '../Context/PedidoContext';
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <UsuariosProvider>
+      <PedidoProvider>
       <ProductoProvider>
         <UserProvider>
           <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -44,6 +46,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
           </div>
         </UserProvider>
       </ProductoProvider>
+      </PedidoProvider>
     </UsuariosProvider>
   );
 };

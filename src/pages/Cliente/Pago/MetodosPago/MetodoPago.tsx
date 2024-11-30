@@ -2,24 +2,29 @@ const MetodoPago = () => {
   const radios = [
     {
       name: 'PSE',
-      description: "Una manera rápida y segura para realizar transferencias desde tu cuenta bancaria sin necesidad de tarjetas.",
+      description:
+        'Una manera rápida y segura para realizar transferencias desde tu cuenta bancaria sin necesidad de tarjetas.',
       icon: 'https://seeklogo.com/images/P/pse-logo-B00717880A-seeklogo.com.png',
       value: 'PSE',
+      active: true,
     },
     {
       name: 'Tarjeta de crédito',
-      description: 'Realiza pagos cómodamente usando tus tarjetas de crédito, con cobertura mundial y procesamiento instantáneo.',
+      description:
+        'Realiza pagos cómodamente usando tus tarjetas de crédito, con cobertura mundial y procesamiento instantáneo.',
       icon: 'https://static.vecteezy.com/system/resources/thumbnails/000/357/048/small/3__2821_29.jpg',
       value: 'Tarjeta de crédito',
+      active: true,
     },
     {
       name: 'ContraEntrega',
-      description: 'Paga directamente al recibir tu pedido, sin anticipos ni pagos previos.',
+      description:
+        'Paga directamente al recibir tu pedido, sin anticipos ni pagos previos.',
       icon: 'https://img.freepik.com/vector-gratis/concepto-pago-contra-reembolso_23-2148768275.jpg?semt=ais_hybrid',
       value: 'ContraEntrega',
+      active: false,
     },
   ];
-  
 
   return (
     <div className="max-w-xl mx-auto ">
@@ -31,10 +36,11 @@ const MetodoPago = () => {
               <input
                 id={item.name}
                 type="radio"
-                defaultChecked={idx == 1 ? true : false}
+                defaultChecked={idx == 2 ? true : false}
                 name="payment"
                 value={item.value}
                 className="sr-only peer"
+                disabled={item.active}
                 required
               />
               <div className="w-full flex gap-x-3 items-start p-4 cursor-pointer rounded-lg border  shadow-sm ring-indigo-600 peer-checked:ring-2 duration-200">
@@ -51,6 +57,9 @@ const MetodoPago = () => {
                   </h3>
                   <p className="mt-1 text-sm text-gray-600">
                     {item.description}
+                  </p>
+                  <p className="text-end text-sm text-gray-600">
+                    {item.active && 'Proceso de pago en curso'}
                   </p>
                 </div>
               </div>

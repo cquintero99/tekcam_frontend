@@ -21,7 +21,9 @@ import Checkout from '../pages/Cliente/Pago/Checkout';
 import Preguntas from '../pages/Preguntas/Preguntas';
 import PreguntasFrecuentres from '../pages/Cliente/Preguntas/PreguntasFrecuentres';
 import PQR from '../pages/Cliente/PQR/PQR';
-
+import PedidoCliente from '../pages/Cliente/Pedido/Pedido';
+import Pedidos from '../pages/Pedidos/Pedidos';
+import PedidoEmpleado from '../pages/Pedidos/Pedido/Pedido';
 const routes: RouteObject[] = [
   {
     path: '/admin/',
@@ -105,6 +107,25 @@ const routes: RouteObject[] = [
       </>
     ),
   },
+  {
+    path: '/admin/pedidos',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Pedidos />
+      </>
+    ),
+  },
+  {
+    path: '/admin/pedido/informacion/:ref',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <PedidoEmpleado />
+      </>
+    ),
+  },
+
 
   {
     path: '/admin/perfil',
@@ -121,6 +142,24 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="eCommerce Dashboard " />
         <ECommerce />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/pedidos',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <Pedidos />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/pedido/informacion/:ref',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <PedidoEmpleado />
       </>
     ),
   },
@@ -171,7 +210,6 @@ const routes: RouteObject[] = [
     ),
   },
 
-
   {
     path: '/vendedor/perfil',
     element: (
@@ -181,7 +219,7 @@ const routes: RouteObject[] = [
       </>
     ),
   },
- 
+
   {
     path: '/cliente/',
     element: (
@@ -231,8 +269,17 @@ const routes: RouteObject[] = [
     path: '/cliente/pago',
     element: (
       <>
-        <PageTitle title="TEKCAM Login " />
+        <PageTitle title="TEKCAM Pago pedido " />
         <Checkout />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/pedido/:ref',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Pedido  " />
+        <PedidoCliente />
       </>
     ),
   },
