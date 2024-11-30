@@ -13,6 +13,7 @@ import { Marca } from '../types/Marca';
 import { Catalogo } from '../types/Catalogo';
 import { Producto } from '../types/producto';
 import Carrito from '../types/Carrito';
+import Factura from '../types/Factura';
 
 // Define el tipo para el contexto del producto
 type ClienteContextType = {
@@ -124,6 +125,7 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
       console.error('Error fetching data:', error);
     }
   };
+ 
 
   useEffect(() => {
   
@@ -201,7 +203,7 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
         drawerOpen,
         setDrawerOpen,
         preguntas,
-        setPreguntas
+        setPreguntas,
       }}
     >
       {children}

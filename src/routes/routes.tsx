@@ -21,7 +21,7 @@ import Checkout from '../pages/Cliente/Pago/Checkout';
 import Preguntas from '../pages/Preguntas/Preguntas';
 import PreguntasFrecuentres from '../pages/Cliente/Preguntas/PreguntasFrecuentres';
 import PQR from '../pages/Cliente/PQR/PQR';
-
+import PedidoCliente from '../pages/Cliente/Pedido/Pedido';
 const routes: RouteObject[] = [
   {
     path: '/admin/',
@@ -231,8 +231,17 @@ const routes: RouteObject[] = [
     path: '/cliente/pago',
     element: (
       <>
-        <PageTitle title="TEKCAM Login " />
+        <PageTitle title="TEKCAM Pago pedido " />
         <Checkout />
+      </>
+    ),
+  },
+  {
+    path: '/cliente/pedido/:ref',
+    element: (
+      <>
+        <PageTitle title="TEKCAM Pedido  " />
+        <PedidoCliente />
       </>
     ),
   },
