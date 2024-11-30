@@ -10,6 +10,7 @@ import {
 } from 'react-icons/ai';
 import Brand from '../../Global/Brand';
 import { useUserContext } from '../../Context/UserContext';
+import { FaFileInvoiceDollar, FaQuestionCircle } from 'react-icons/fa';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -32,10 +33,10 @@ const routesSidebar: RouteItem[] = [
   { to: '/admin/vendedores', icon: AiOutlineUser, label: 'Vendedores' },
 
   { to: '/admin/stock', icon: AiFillDropboxSquare, label: 'Stock' },
-  { to: '/admin/pedidos', icon: AiFillDropboxSquare, label: 'Pedidos' },
+  { to: '/admin/pedidos', icon: FaFileInvoiceDollar , label: 'Pedidos' },
   {
     to: '/admin/preguntas',
-    icon: AiFillDropboxSquare,
+    icon: FaQuestionCircle ,
     label: 'Preguntas Frecuentes',
   },
 
@@ -57,10 +58,10 @@ const routesSidebarVendedor: RouteItem[] = [
   },
 
   { to: '/vendedor/stock', icon: AiFillDropboxSquare, label: 'Stock' },
-  { to: '/vendedor/pedidos', icon: AiFillDropboxSquare, label: 'Pedidos' },
+  { to: '/vendedor/pedidos', icon: FaFileInvoiceDollar, label: 'Pedidos' },
   {
     to: '/vendedor/preguntas',
-    icon: AiFillDropboxSquare,
+    icon: FaQuestionCircle ,
     label: 'Preguntas Frecuentes',
   },
 

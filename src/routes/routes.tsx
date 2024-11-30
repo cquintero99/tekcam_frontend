@@ -23,6 +23,7 @@ import PreguntasFrecuentres from '../pages/Cliente/Preguntas/PreguntasFrecuentre
 import PQR from '../pages/Cliente/PQR/PQR';
 import PedidoCliente from '../pages/Cliente/Pedido/Pedido';
 import Pedidos from '../pages/Pedidos/Pedidos';
+import PedidoEmpleado from '../pages/Pedidos/Pedido/Pedido';
 const routes: RouteObject[] = [
   {
     path: '/admin/',
@@ -115,6 +116,16 @@ const routes: RouteObject[] = [
       </>
     ),
   },
+  {
+    path: '/admin/pedido/informacion/:ref',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <PedidoEmpleado />
+      </>
+    ),
+  },
+
 
   {
     path: '/admin/perfil',
@@ -140,6 +151,15 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="Preguntas Frecuentes" />
         <Pedidos />
+      </>
+    ),
+  },
+  {
+    path: '/vendedor/pedido/informacion/:ref',
+    element: (
+      <>
+        <PageTitle title="Preguntas Frecuentes" />
+        <PedidoEmpleado />
       </>
     ),
   },
