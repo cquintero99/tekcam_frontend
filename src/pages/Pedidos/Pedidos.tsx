@@ -5,7 +5,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { useUserContext } from '../../Context/UserContext';
 
 const Pedidos = () => {
-  const {modulo} = useUserContext();
+  const { modulo } = useUserContext();
   const { pedidos } = usePedidoContext();
 
   // Ordenar los pedidos en orden inverso por `id`
@@ -13,7 +13,7 @@ const Pedidos = () => {
 
   return (
     <div className="container mx-auto p-4">
-     <Breadcrumb pageName="Pedidos" lastPage="" />
+      <Breadcrumb pageName="Pedidos" lastPage="" />
       <div className="max-w-full overflow-x-auto">
         <table className="w-full table-auto">
           <thead className="bg-gray-100">
@@ -34,7 +34,8 @@ const Pedidos = () => {
                 Fecha Registro
               </th>
               <th className="py-3 px-4 text-left text-sm font-medium text-gray-700 border-b">
-                Detalles</th>
+                Detalles
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -51,12 +52,12 @@ const Pedidos = () => {
                   <p>{pedido.cliente.documento}</p>
                 </td>
                 <td className="py-3 px-4 text-sm text-gray-900 border-b">
-                  {pedido?.estados.map((estado: any) => (
-                    <span key={estado.id}>
-                      {estado.estado.nombre} -{' '}
-                      {estado.fechaRegistro.split('T')[0]}
-                    </span>
-                  ))}
+                  {pedido?.estados[pedido?.estados.length - 1]?.estado?.nombre}{' '}
+                  {
+                    pedido?.estados[
+                      pedido?.estados.length - 1
+                    ].fechaRegistro?.split('T')[0]
+                  }
                 </td>
                 <td className="py-3 px-4 text-sm text-gray-900 border-b">
                   ${pedido.total.toLocaleString()}
@@ -67,7 +68,7 @@ const Pedidos = () => {
                 <td className="py-3 px-4 text-sm text-gray-900 border-b">
                   <Link to={`/${modulo}/pedido/informacion/${pedido.ref}`}>
                     <FaInfoCircle className="w-5 h-5 text-blue-500 hover:text-blue-700  cursor-pointer" />
-                    </Link>
+                  </Link>
                 </td>
               </tr>
             ))}
