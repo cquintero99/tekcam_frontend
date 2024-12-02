@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import EstadoPedido from './Estado/Estado';
-import { FaUser } from 'react-icons/fa';
+import { FaUser, FaUserCog } from 'react-icons/fa';
 import { MdOutlinePayments } from 'react-icons/md';
 import Productos from './Productos/Productos';
 import ExperienciaCompra from './Experiencia/ExperienciaCompra';
@@ -117,6 +117,37 @@ const PedidoEmpleado = () => {
             <span className="font-bold">Email:</span>{' '}
             {pedidoCliente?.data?.cliente?.email}
           </p>
+
+          {pedidoCliente?.data?.vendedor && (
+           <>
+            <h3 className=" font-semibold text-gray-700 mb-4 mt-3 flex items-center">
+            <FaUserCog className="mr-2" />
+            VENDEDOR 
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-gray-600">
+            <p>
+              <span className="font-bold">Nombre:</span>{' '}
+              {pedidoCliente?.data?.vendedor?.nombre}
+            </p>
+            <p>
+              <span className="font-bold">Celular:</span>{' '}
+              {pedidoCliente?.data?.vendedor?.celular}
+            </p>
+            <p>
+              <span className="font-bold">Documento:</span>{' '}
+              {pedidoCliente?.data?.vendedor?.cedula}
+            </p>
+            <p>
+              <span className="font-bold">ID:</span>{' '}
+              {pedidoCliente?.data?.vendedor?.id}
+              </p>
+          </div>
+          <p>
+            <span className="font-bold">Email:</span>{' '}
+            {pedidoCliente?.data?.vendedor?.email}
+          </p>
+           </>
+          )}
         </div>
 
         <div>

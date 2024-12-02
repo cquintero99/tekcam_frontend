@@ -44,7 +44,7 @@ const Login = () => {
   const parseToken = (token: string) => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-
+      localStorage.setItem('data', JSON.stringify(payload));
       return payload?.rol?.nombre?.toLowerCase();
     } catch (error) {
       console.error('Failed to parse token:', error);

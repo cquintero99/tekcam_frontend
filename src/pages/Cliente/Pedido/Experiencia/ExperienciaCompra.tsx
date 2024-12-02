@@ -48,7 +48,7 @@ const ExperienciaCompra: React.FC<ExperienciaCompraProps> = ({
     setIsOpen(false);
     axios
       .post(
-        BASE_URL + 'factura/cliente/ref/experiencia/save' + ref ,
+        BASE_URL + 'factura/cliente/ref/experiencia/save/' + ref ,
         experienciaCompra,
         {
           headers,

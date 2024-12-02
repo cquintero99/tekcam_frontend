@@ -30,8 +30,11 @@ const EstadoPedido = ({
 
   const handleActualizarEstado = async (data: any) => {
     console.log('Estado actualizado:', data);
+    const usuario = JSON.parse(localStorage.getItem('data')!);
+    console.log(usuario);
     const nuevoEstado = {
       ref,
+      vendedor:usuario.id,
       estadoActual: data.estadoActual,
       estadoNuevo: data.estado,
       guia: data.guia,
@@ -39,6 +42,7 @@ const EstadoPedido = ({
       descripcion: data.descripcion,
     };
     console.log(nuevoEstado);
+    
 
     setLoading(true);
     const headers = {

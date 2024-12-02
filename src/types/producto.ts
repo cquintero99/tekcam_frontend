@@ -14,5 +14,6 @@ export interface Producto {
   precioCompra: number;
   precioVenta: number;
   visible: boolean;
+  recomendado: boolean;
   imagenes: ProductoImagen[]; // Lista de imágenes asociadas al producto
 }

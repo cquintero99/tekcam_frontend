@@ -5,6 +5,7 @@ import { useClienteContext } from '../../../../Context/ClienteContext';
 import { Producto } from '../../../../types/producto';
 import { motion } from 'framer-motion';
 import Reseñas from '../Reseñas/Reseñas';
+import { BiSolidLike } from 'react-icons/bi';
 
 const InfoProductoCliente = () => {
   const { productos,agregarAlCarrito } = useClienteContext();
@@ -74,12 +75,21 @@ const InfoProductoCliente = () => {
             <p className="text-lg  mb-2">
               PRECIO: ${producto.precioVenta}
             </p>
+            <p className="text-lg  mb-2">
+              STOCK: {producto.stock}
+            </p>
+           
             <button
               onClick={() => agregarAlCarrito(producto.id)}
               className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
               Agregar al carrito
             </button>
+            {producto.recomendado ? (
+                <p className="text-lg  mb-2 flex gap-2">
+                <strong>RECOMENDADO POR TEKCAM</strong> <BiSolidLike className='text-blue-700' title="Recomendado" /> 
+                </p>
+               ): 'NO RECOMENDADO'}
 
             <p className="text-lg text-gray-700 mt-6">
               Descripción: {producto.descripcion}
@@ -88,7 +98,7 @@ const InfoProductoCliente = () => {
            
           </motion.div>
         </motion.div>
-        <Reseñas  />
+        {/* <Reseñas  /> */}
       </motion.div>
     </>
   );
