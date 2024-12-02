@@ -23,7 +23,7 @@ const Checkout = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   const [selectedDepartment, setSelectedDepartment] = useState('');
-  const { carrito, } = useClienteContext();
+  const { carrito, vaciarCarrito} = useClienteContext();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     // Fetch departments from API-Colombia
@@ -110,7 +110,10 @@ const Checkout = () => {
       });
       console.log(facturaResponse)
       if(facturaResponse.data.success){
-        navigate('/cliente/pedido/'+facturaResponse.data.ref);
+        alert('Pedido pagado exitosamente');
+        vaciarCarrito();
+        navigate('/cliente/pedido/'+facturaResponse.data.data.ref);
+        
       }else {
         alert(facturaResponse.data.msg);
       }

@@ -38,6 +38,7 @@ const EditarProducto = () => {
     precioCompra: producto?.precioCompra || 0,
     precioVenta: producto?.precioVenta || 0,
     visible: producto?.visible || false,
+    recomendado: producto?.recomendado || false,
   });
 
   const [imagenes, setImagenes] = useState<File[]>([]);
@@ -270,6 +271,18 @@ const EditarProducto = () => {
                 />
                 <span className="text-black dark:text-white">
                   ¿Producto visible?
+                </span>
+              </div>
+              <div className="mb-4.5 flex items-center">
+                <input
+                  name="recomendado"
+                  type="checkbox"
+                  checked={formValues.recomendado}
+                  onChange={handleInputChange}
+                  className="mr-2"
+                />
+                <span className="text-black dark:text-white">
+                  ¿Producto recomendado?
                 </span>
               </div>
               {errorMsg && (

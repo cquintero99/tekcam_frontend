@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthLayout from './AuthLayout';
 import axios from 'axios';
 import Loader from '../../common/Loader';
+import { set } from 'animejs';
 
 const MAX_ATTEMPTS = 5;
 const MIN_PASSWORD_LENGTH = 4;
@@ -35,9 +36,12 @@ const ResetPassword: React.FC = () => {
       if (emailResponse.data.success) {
         setSendEmail(true);
         setUuid(emailResponse.data.data);
+      } else {
+        setErrorMessage(emailResponse.data.msg);
       }
     } catch (error) {
       console.error('Error al enviar el email:', error);
+      setErrorMessage('Error al enviar el email');
     } finally {
       setLoading(false);
     }
@@ -130,6 +134,9 @@ const ResetPassword: React.FC = () => {
                   />
                 </div>
               </div>
+              {errorMessage && (
+                <p className="text-red-500 mb-3">{errorMessage}</p>
+              )}
               <div className="mb-5">
                 <input
                   type="submit"
@@ -137,7 +144,7 @@ const ResetPassword: React.FC = () => {
                   className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
                 />
               </div>
-              {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+              
             </form>
           ) : (
             <form onSubmit={handleSubmitValidateCode}>

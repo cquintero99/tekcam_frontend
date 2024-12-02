@@ -146,7 +146,9 @@ const Drawer: FC<DrawerProps> = ({ isOpen, onClose }) => {
           {carrito && carrito.length > 0 && (
         
             <button
-              onClick={() => navigate('/cliente/pago')}
+              onClick={() => {navigate('/cliente/pago')
+                onClose();
+              }}
               className="px-4 py-2 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800"
             >
               PAGAR PEDIDO

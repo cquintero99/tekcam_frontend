@@ -155,6 +155,12 @@ const CardProducto = () => {
                     {item.visible ? 'Sí' : 'No'}
                   </p>
                 </div>
+                <div className="flex justify-between">
+                  <p className="text-sm text-gray-600">Recomendado:</p>
+                  <p className="text-sm text-gray-600">
+                    {item.recomendado ? 'Sí' : 'No'}
+                  </p>
+                </div>
               </div>
             </div>
           ))

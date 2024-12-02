@@ -45,6 +45,7 @@ const InformacionProducto = () => {
                         <p className="text-lg text-gray-700 mb-2">Stock: {producto.stock}</p>
                         
                         <p className="text-lg text-gray-700 mb-6">Visible: {producto.visible ? 'Sí' : 'No'}</p>
+                        <p className="text-lg text-gray-700 mb-6">Recomendado: {producto.recomendado ? 'Sí' : 'No'}</p>
                         <p className="text-lg text-gray-700 mb-6">Descripción: {producto.descripcion}</p>
                     </div>
                 </div>

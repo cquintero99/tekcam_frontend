@@ -27,6 +27,7 @@ type ClienteContextType = {
   agregarAlCarrito: (productoId: number) => void;
   quitarDelCarrito: (productoId: number) => void;
   carrito: Carrito[] |null;
+  vaciarCarrito: () => void;
   actualizarCantidadCarrito: (productoId: number, cantidad: number) => void;
   drawerOpen: boolean;
   setDrawerOpen: Dispatch<SetStateAction<boolean>>;
@@ -184,6 +185,11 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
     setCarrito(nuevoCarrito);
     localStorage.setItem('carrito', JSON.stringify(nuevoCarrito));
   };
+
+  const vaciarCarrito = () => {
+    setCarrito([]);
+    localStorage.removeItem('carrito');
+  };
   
 
   return (
@@ -199,6 +205,7 @@ export const ClienteProvider: React.FC<{ children: ReactNode }> = ({
         agregarAlCarrito,
         quitarDelCarrito,
         carrito,
+        vaciarCarrito,
         actualizarCantidadCarrito,
         drawerOpen,
         setDrawerOpen,

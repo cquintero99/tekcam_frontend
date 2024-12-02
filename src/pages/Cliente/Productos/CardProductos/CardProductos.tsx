@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Carousel } from 'react-responsive-carousel';
 import { useNavigate } from 'react-router-dom';
 import { useClienteContext } from '../../../../Context/ClienteContext';
+import { BiSolidLike } from 'react-icons/bi';
 
 const ProductList: React.FC<{
   filteredProductos: any[];
@@ -62,7 +63,11 @@ const ProductList: React.FC<{
                   ? producto.nombre.substring(0, 22) + '...'
                   : producto.nombre}
               </h3>
-              <p className="mb-2 text-gray-600">{producto.marca.nombre}</p>
+              <div className='flex justify-between'>
+              <p className="mb-2 text-gray-600">{producto.marca.nombre} </p>
+              {producto.recomendado && <BiSolidLike className='text-blue-700' title="Recomendado" />}
+              </div>
+              
               <p className="mb-2 text-gray-800 font-semibold">
                 {formatCurrency(producto.precioVenta || 0)}
               </p>
@@ -72,6 +77,7 @@ const ProductList: React.FC<{
             >
               Agregar al carrito
             </button>
+            <p className="mb-2 text-gray-600 text-center text-xs mt-3">STOCK: {producto.stock}</p>
           </div>
         </motion.div>
       ))}
