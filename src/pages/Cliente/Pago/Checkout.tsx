@@ -6,6 +6,7 @@ import MetodoEnvio from './MetodosEnvio/MetodoEnvio';
 import { useClienteContext } from '../../../Context/ClienteContext';
 import Loader from '../../../common/Loader';
 import ListaExperiencias from './Experiencias/ListaExperiencias';
+import { useNavigate } from 'react-router-dom';
 
 interface Department {
   id: number;
@@ -96,6 +97,7 @@ const Checkout = () => {
     
     // Aquí puedes enviar los datos al servidor usando axios u otro método
   };
+  const navigate = useNavigate();
   const saveFactura = async (factura: any ) => {
     try {
       setLoading(true)
@@ -107,6 +109,11 @@ const Checkout = () => {
         headers,
       });
       console.log(facturaResponse)
+      if(facturaResponse.data.success){
+        navigate('/cliente/pedido/'+facturaResponse.data.ref);
+      }else {
+        alert(facturaResponse.data.msg);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {

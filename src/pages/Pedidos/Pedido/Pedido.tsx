@@ -15,14 +15,14 @@ const PedidoEmpleado = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { ref } = useParams();
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    console.log(pedidoCliente);
-    if (pedidoCliente?.data?.experienciaCompra === null) {
-      setIsOpen(true);
-    } else {
-      setIsOpen(false);
-    }
-  }, [pedidoCliente]);
+  // useEffect(() => {
+  //   console.log(pedidoCliente);
+  //   if (pedidoCliente?.data?.experienciaCompra === null) {
+  //     setIsOpen(true);
+  //   } else {
+  //     setIsOpen(false);
+  //   }
+  // }, [pedidoCliente]);
   useEffect(() => {
     // Fetch order details by reference
     if (!ref) return;

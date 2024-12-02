@@ -11,7 +11,7 @@ import {
 import Brand from '../../Global/Brand';
 import { useUserContext } from '../../Context/UserContext';
 import { FaFileInvoiceDollar, FaQuestionCircle } from 'react-icons/fa';
-
+import { BiSolidReport } from "react-icons/bi";
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
@@ -28,12 +28,13 @@ const routesSidebar: RouteItem[] = [
   {
     to: '/admin',
     icon: AiOutlineDashboard,
-    label: 'Dashboard',
+    label: 'Catalogo',
   },
   { to: '/admin/vendedores', icon: AiOutlineUser, label: 'Vendedores' },
 
   { to: '/admin/stock', icon: AiFillDropboxSquare, label: 'Stock' },
   { to: '/admin/pedidos', icon: FaFileInvoiceDollar , label: 'Pedidos' },
+  { to: '/admin/estadisticas', icon: BiSolidReport  , label: 'Estadisticas' },
   {
     to: '/admin/preguntas',
     icon: FaQuestionCircle ,
@@ -54,7 +55,7 @@ const routesSidebarVendedor: RouteItem[] = [
   {
     to: '/vendedor',
     icon: AiOutlineDashboard,
-    label: 'Dashboard',
+    label: 'Catalogo',
   },
 
   { to: '/vendedor/stock', icon: AiFillDropboxSquare, label: 'Stock' },

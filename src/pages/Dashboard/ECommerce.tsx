@@ -184,7 +184,7 @@ const ECommerce = () => {
 
   return (
    <>
-   <Breadcrumb pageName="Dashboard" lastPage="" />
+   <Breadcrumb pageName="Catalogo" lastPage="" />
    {loading && 
         <Loader />
         }

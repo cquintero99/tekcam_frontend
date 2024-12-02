@@ -24,6 +24,7 @@ import PQR from '../pages/Cliente/PQR/PQR';
 import PedidoCliente from '../pages/Cliente/Pedido/Pedido';
 import Pedidos from '../pages/Pedidos/Pedidos';
 import PedidoEmpleado from '../pages/Pedidos/Pedido/Pedido';
+import Estadisiticas from '../pages/Admin/Estadisticas/Estadisiticas';
 const routes: RouteObject[] = [
   {
     path: '/admin/',
@@ -133,6 +134,15 @@ const routes: RouteObject[] = [
       <>
         <PageTitle title="Perfil" />
         <Perfil />
+      </>
+    ),
+  },
+  {
+    path: '/admin/estadisticas',
+    element: (
+      <>
+        <PageTitle title="Perfil" />
+        <Estadisiticas />
       </>
     ),
   },
