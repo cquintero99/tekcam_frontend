@@ -3,6 +3,8 @@ import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { usePedidoContext } from '../../Context/PedidoContext';
 import { FaInfoCircle } from 'react-icons/fa';
 import { useUserContext } from '../../Context/UserContext';
+import FacturaPDF from './pdf/FacturaPDF';
+import ReportePedidos from './pdf/ReportePedidos';
 
 const Pedidos = () => {
   const { modulo } = useUserContext();
@@ -12,10 +14,11 @@ const Pedidos = () => {
   const pedidosOrdenados = [...pedidos].sort((a, b) => b.id - a.id);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto ">
       <Breadcrumb pageName="Pedidos" lastPage="" />
+      <ReportePedidos pedidos={pedidos}/>
       <div className="max-w-full overflow-x-auto">
-        <table className="w-full table-auto">
+        <table className="w-full table-auto border">
           <thead className="bg-gray-100">
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="py-3 px-4 text-left text-sm font-medium text-gray-700 border-b">
@@ -35,6 +38,9 @@ const Pedidos = () => {
               </th>
               <th className="py-3 px-4 text-left text-sm font-medium text-gray-700 border-b">
                 Detalles
+              </th>
+              <th className="py-3 px-4 text-left text-sm font-medium text-gray-700 border-b">
+                Factura
               </th>
             </tr>
           </thead>
@@ -65,10 +71,14 @@ const Pedidos = () => {
                 <td className="py-3 px-4 text-sm text-gray-900 border-b">
                   {new Date(pedido.fechaRegistro).toLocaleDateString()}
                 </td>
-                <td className="py-3 px-4 text-sm text-gray-900 border-b">
+                <td className="py-3 px-4 text-sm text-gray-900 border-b  ">
                   <Link to={`/${modulo}/pedido/informacion/${pedido.ref}`}>
                     <FaInfoCircle className="w-5 h-5 text-blue-500 hover:text-blue-700  cursor-pointer" />
                   </Link>
+                  
+                </td>
+                <td className="py-3 px-4 text-sm text-gray-900 border-b  ">
+                <FacturaPDF factura={pedido} />
                 </td>
               </tr>
             ))}
